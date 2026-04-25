@@ -1,0 +1,13 @@
+{
+    "meta": { "protocol_version": "1.0.0", "seed": "DISCARD1", "ante": 8, "round": 24, "phase": "SELECTING_HAND" },
+    "blind": { "name": "Big Blind", "target_score": 100000, "current_score": 0 },
+    "economy": { "money": 50, "hands_left": 4, "discards_left": 3, "hand_size": 8 },
+    "hand": [
+        {"id": "C_1", "rank": "2", "suit": "Spades", "base_chips": 2, "enhancement": "None", "edition": "None", "seal": "None", "is_debuffed": false},
+        {"id": "C_2", "rank": "3", "suit": "Hearts", "base_chips": 3, "enhancement": "None", "edition": "None", "seal": "None", "is_debuffed": false},
+        {"id": "C_3", "rank": "4", "suit": "Clubs", "base_chips": 4, "enhancement": "None", "edition": "None", "seal": "None", "is_debuffed": false},
+        {"id": "C_4", "rank": "7", "suit": "Diamonds", "base_chips": 7, "enhancement": "None", "edition": "None", "seal": "None", "is_debuffed": false},
+        {"id": "C_5", "rank": "9", "suit": "Diamonds", "base_chips": 9, "enhancement": "None", "edition": "None", "seal": "None", "is_debuffed": false}
+    ],
+    "jokers": []
+}

@@ -1,0 +1,13 @@
+{
+    "meta": { "protocol_version": "1.0.0", "seed": "LETHAL12", "ante": 1, "round": 1, "phase": "SELECTING_HAND" },
+    "blind": { "name": "Small Blind", "target_score": 100, "current_score": 0 },
+    "economy": { "money": 4, "hands_left": 4, "discards_left": 3, "hand_size": 8 },
+    "hand": [
+        {"id": "C_1", "rank": "King", "suit": "Spades", "base_chips": 10, "enhancement": "None", "edition": "None", "seal": "None", "is_debuffed": false},
+        {"id": "C_2", "rank": "King", "suit": "Hearts", "base_chips": 10, "enhancement": "None", "edition": "None", "seal": "None", "is_debuffed": false},
+        {"id": "C_3", "rank": "King", "suit": "Clubs", "base_chips": 10, "enhancement": "None", "edition": "None", "seal": "None", "is_debuffed": false},
+        {"id": "C_4", "rank": "2", "suit": "Diamonds", "base_chips": 2, "enhancement": "None", "edition": "None", "seal": "None", "is_debuffed": false},
+        {"id": "C_5", "rank": "3", "suit": "Diamonds", "base_chips": 3, "enhancement": "None", "edition": "None", "seal": "None", "is_debuffed": false}
+    ],
+    "jokers": []
+}
