@@ -6,20 +6,20 @@ Inside a blind, the agent solves a finite-horizon stochastic control problem.
 
 We write the round state as:
 
-\[
+$$
 s = (h, d, D, X, y, H, R)
-\]
+$$
 
 where:
-- \(h\) is the current hand,
-- \(d\) is the remaining draw pile,
-- \(D\) is the discard pile,
-- \(X\) is the current score already banked into the blind,
-- \(y\) is the target score,
-- \(H\) is hands left,
-- \(R\) is discards left.
+- $h$ is the current hand,
+- $d$ is the remaining draw pile,
+- $D$ is the discard pile,
+- $X$ is the current score already banked into the blind,
+- $y$ is the target score,
+- $H$ is hands left,
+- $R$ is discards left.
 
-An action \(a\) is either:
+An action $a$ is either:
 - a playable subset of 1 to 5 cards, or
 - a discard subset of 1 to 5 cards.
 
@@ -27,25 +27,25 @@ An action \(a\) is either:
 
 For a play action:
 
-\[
+$$
 T_{\text{play}}(s, a) \to s'
-\]
+$$
 
 does all of the following:
 - computes the score of the selected subset,
-- increments \(X\),
-- decrements \(H\),
+- increments $X$,
+- decrements $H$,
 - moves played cards into the discard pile,
 - refills the hand from the draw pile.
 
 For a discard action:
 
-\[
+$$
 T_{\text{discard}}(s, a) \to s'
-\]
+$$
 
 does:
-- decrements \(R\),
+- decrements $R$,
 - moves discarded cards into the discard pile,
 - refills from the draw pile.
 
@@ -72,13 +72,13 @@ When the exact solver is likely to time out, the planner falls back to Python. T
 
 This is a standard multi-fidelity control pattern:
 
-\[
+$$
 V(s, a) \approx
 \begin{cases}
 V_{\text{exact}}(s, a), & \text{if latency budget allows} \\
 V_{\text{fast}}(s, a), & \text{otherwise}
 \end{cases}
-\]
+$$
 
 ## 4. Root Action Evaluation
 
@@ -86,23 +86,23 @@ At the root, we evaluate a beam of candidate actions:
 - top play actions ranked by exact immediate score,
 - top discard actions ranked by discard desirability heuristics.
 
-For each root action \(a\), the solver runs Monte Carlo rollouts:
+For each root action $a$, the solver runs Monte Carlo rollouts:
 
-\[
+$$
 \hat{V}(s, a) = \frac{1}{N} \sum_{i=1}^{N} U(\tau_i)
-\]
+$$
 
-where each trajectory \(\tau_i\) is sampled from the draw process induced by the current remaining deck.
+where each trajectory $\tau_i$ is sampled from the draw process induced by the current remaining deck.
 
 The root action score is risk-sensitive:
 
-\[
+$$
 \text{Score}(s,a) = \mathbb{E}[U(\tau)] + \lambda \cdot Q_{0.2}(U)
-\]
+$$
 
 where:
-- \(Q_{0.2}\) is the lower 20th percentile of rollout utility,
-- \(\lambda > 0\) is a conservative weight.
+- $Q_{0.2}$ is the lower 20th percentile of rollout utility,
+- $\lambda > 0$ is a conservative weight.
 
 In code, this behaves like a soft CVaR-style penalty against brittle lines that spike high on average but collapse too often.
 
@@ -110,13 +110,13 @@ In code, this behaves like a soft CVaR-style penalty against brittle lines that 
 
 The rollout utility is designed around survival first:
 
-\[
+$$
 U =
 \begin{cases}
 B_{\text{clear}} + \alpha H + \beta R - \gamma \cdot \text{overkill}, & \text{if blind is cleared} \\
 -B_{\text{fail}} + \eta \cdot \frac{X}{y} + \alpha' H + \beta' R, & \text{otherwise}
 \end{cases}
-\]
+$$
 
 Interpretation:
 - clearing the blind dominates the objective,
@@ -128,9 +128,9 @@ Interpretation:
 
 The JavaScript round solver uses seeded pseudo-randomness. Root actions are evaluated using the same base seed structure, which gives a crude common-random-numbers effect:
 
-\[
+$$
 \tau_i(a_1), \tau_i(a_2), \ldots
-\]
+$$
 
 share similar randomness across actions. That reduces noise in action ranking compared with using unrelated randomness for each candidate.
 
@@ -138,9 +138,9 @@ share similar randomness across actions. That reduces noise in action ranking co
 
 In principle, a full-run policy would solve:
 
-\[
-V^\*(s) = \max_a \left( r(s,a) + \mathbb{E}[V^\*(s')] \right)
-\]
+$$
+V^*(s) = \max_a \left( r(s,a) + \mathbb{E}[V^*(s')] \right)
+$$
 
 over:
 - blind states,

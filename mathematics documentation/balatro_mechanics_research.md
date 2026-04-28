@@ -14,11 +14,11 @@ This repository now models both, but at different fidelity levels.
 
 The immediate control problem is:
 
-\[
+$$
 \text{clear blind} \iff \text{current score} + \sum_{t=1}^{T} \text{hand score}_t \ge \text{target score}
-\]
+$$
 
-where \(T\) is bounded by `hands_left`.
+where $T$ is bounded by `hands_left`.
 
 ### 2. Hands, discards, and redraws
 
@@ -102,9 +102,9 @@ The shop policy in this repo therefore scores rental/perishable/eternal stickers
 
 Gold-stake autonomy is difficult because the control problem is not "find the biggest hand now". It is:
 
-\[
+$$
 \max_\pi \Pr(\text{survive all antes} \mid \text{stake, deck, joker board, economy})
-\]
+$$
 
 subject to:
 - hidden future draws,
