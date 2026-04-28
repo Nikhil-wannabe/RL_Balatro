@@ -1,15 +1,11 @@
 [manifest]
 version = "1.0.0"
-dump_lua = true
 priority = 0
 
 [[patches]]
-[patches.pattern]
+[patches.copy]
 target = "game.lua"
-pattern = "function Game:update(dt)"
-position = "after"
-payload = '''
-    if AgentEngine and not AgentEngine.is_busy then
-        AgentEngine:tick()
-    end
-'''
+position = "append"
+sources = [
+    "agent.lua",
+]

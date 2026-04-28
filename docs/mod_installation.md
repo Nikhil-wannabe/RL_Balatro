@@ -65,6 +65,8 @@ Balatro/
       lovely.toml
 ```
 
+If you already installed an older version of this mod, overwrite both files in `%AppData%\Balatro\Mods\AgentMod\`. Do not update only `agent.lua` or only `lovely.toml`; they are meant to ship together.
+
 ## Step 5. Start the Python backend
 
 From the repository root:
@@ -81,21 +83,29 @@ From the repository root:
 
 This launches the local TCP server on `127.0.0.1:12345`.
 
-The bundled scripts also enable:
+The default launcher is quality-first. It enables:
 - structured logging in `logs/agent.log`,
 - decision traces in `logs/decision_trace.jsonl`,
-- deterministic state-seeded rollout search for discard planning.
+- deterministic state-seeded rollout search for discard planning,
+- deeper Monte Carlo and JavaScript round search budgets,
+- asynchronous hand planning so the game keeps rendering while the backend searches.
+
+If you prefer a lower-latency profile, use:
+- `.\scripts\run_agent_fast.bat`
+- `./scripts/run_agent_fast.sh`
 
 ## Step 6. Launch Balatro
 
 1. Start Balatro normally.
 2. Lovely should load `agent.lua`.
-3. Start a run.
-4. The mod should begin acting automatically during:
+3. At the main menu, choose `Continue` or start a run yourself.
+4. Once a run reaches gameplay, the mod acts automatically during:
    - blind selection,
    - hand/discard turns,
    - round cash out,
    - supported shop decisions.
+
+Lovely should now report `Applied 1 patch to 'game.lua'` for this mod. If you still see `Applied 2 patches to 'game.lua'`, the installed `lovely.toml` is from an older build and should be replaced with the current one from this repository.
 
 ## Step 7. Verify the installation
 
@@ -104,13 +114,19 @@ Check all of the following:
 - The file `logs/agent.log` appears in the repository.
 - The file `logs/decision_trace.jsonl` appears after the first in-game decision.
 - Balatro does not stall on the first blind.
+- After clearing a blind, the game proceeds into round evaluation without crashing on `round_eval`.
 
 ## Troubleshooting
 
 - Game crashes on startup: validate `lovely.toml` syntax and make sure the file was copied exactly.
+- Error mentions `missing field match_indent`: your installed `lovely.toml` is from an older broken build. Recopy both `lua/agent.lua` and `lua/lovely.toml` from this repository into `%AppData%\Balatro\Mods\AgentMod\`.
 - Agent does nothing: confirm the Python server is already running before Balatro reaches an actionable phase.
+- The menu appears but the run does not start: fully close Balatro, overwrite `%AppData%\Balatro\Mods\AgentMod\agent.lua` from this repo, restart the backend, then relaunch Balatro.
+- The game pauses briefly but does not act yet: in quality mode this can be normal. The server may answer with temporary `NO_OP` responses while a deeper hand search is still running in the background.
 - Connection refused: verify `agent.lua` and `config.py` still agree on `127.0.0.1:12345`.
 - No exact solver: install Node.js or let the bot use the Python fallback.
 - No logs created: check that `AGENT_TRACE_ENABLED=1` and that the repository is writable.
+- Actions feel too slow: lower `AGENT_SELECTING_HAND_TIME_BUDGET_MS` or use `run_agent_fast`.
+- Blind selection fails after the shop: make sure you copied the latest `agent.lua`; newer builds resolve blinds through `G.GAME.round_resets.blind_choices` instead of guessing blind keys.
 
 For the full runtime guide, see [running_the_agent.md](/C:/Users/nkris/OneDrive/Documents/RL_Balatro/docs/running_the_agent.md).

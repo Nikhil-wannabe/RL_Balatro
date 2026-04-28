@@ -9,6 +9,7 @@ This is the fastest way to get the mod running end to end.
 3. From the repository root, install dependencies and run tests.
 4. Start the Python backend with one of the provided scripts.
 5. Copy the Lua mod into your Balatro `Mods` folder and launch the game.
+6. At the menu, choose `Continue` or start a run yourself. The mod takes over after the run enters gameplay.
 
 ## 1. Prepare the Repository
 
@@ -43,6 +44,18 @@ PYTHONPATH=python python3 -m pytest tests/
 
 The backend listens on `127.0.0.1:12345` by default.
 
+`run_agent.bat` and `run_agent.sh` are now quality-first launchers. They enable:
+- the JavaScript round solver,
+- larger Monte Carlo budgets,
+- asynchronous `SELECTING_HAND` planning so Balatro keeps rendering while the server thinks,
+- parallel JS-plus-Python hand search overlap,
+- parallel candidate evaluation in the Python fallback planner,
+- bounded per-hand planning budgets instead of one long blocking wait.
+
+If you want a quicker but weaker profile, use:
+- `.\scripts\run_agent_fast.bat`
+- `./scripts/run_agent_fast.sh`
+
 Expected startup output:
 
 ```text
@@ -57,7 +70,11 @@ Starting Balatro Agent Server
 
 Follow [mod_installation.md](/C:/Users/nkris/OneDrive/Documents/RL_Balatro/docs/mod_installation.md) to install `agent.lua` and `lovely.toml` with Lovely.
 
-Once installed, the mod will hand control to the Python backend during these phases:
+If Balatro is already installed with an earlier copy of this mod, recopy both files before launching the game again:
+- `lua/agent.lua`
+- `lua/lovely.toml`
+
+Once installed, the mod hands control to the Python backend during these phases:
 - `BLIND_SELECT`
 - `SELECTING_HAND`
 - `ROUND_EVAL`
@@ -88,6 +105,11 @@ Instead:
 
 The practical result is that replaying the same state should reproduce the same action, even if the planner explores candidates in a different internal order.
 
+The exact discard solver is now also more selective:
+- it only runs exact combinatorial solving when the live draw pile is actually known from the game state,
+- it collapses duplicate mutated-card categories before evaluating exact outcomes,
+- otherwise it falls back to deterministic shared-pool Monte Carlo instead of pretending an inferred standard deck is exact.
+
 ## 6. Runtime Controls
 
 These environment variables are the main tuning knobs:
@@ -103,15 +125,36 @@ These environment variables are the main tuning knobs:
 - `AGENT_TRACE_ENABLED`: enable structured JSONL traces.
 - `AGENT_TRACE_DIR`: output directory for text logs and traces.
 - `AGENT_JS_ROUND_SOLVER`: enable or disable the Node.js exact round solver.
+- `AGENT_PARALLEL_JS_AND_PYTHON`: when `1`, the JS round solver runs alongside the Python fallback instead of blocking it.
+- `AGENT_PARALLEL_CANDIDATE_EVAL`: when `1`, the planner parallelizes play-combo scoring and shared-pool discard candidate evaluation.
+- `AGENT_PARALLEL_WORKERS`: worker count used by the parallel candidate evaluator.
 
-The provided run scripts already set reasonable defaults.
+The default run scripts are tuned for stronger decisions instead of minimum latency:
+- the JavaScript exact round solver is enabled,
+- Monte Carlo rollout budgets are larger,
+- identical repeated states are cached by the Python server,
+- selecting-hand planning runs in the background and returns `NO_OP` until the deep search result is ready,
+- the Lua bridge uses short phase-specific socket timeouts so the game loop stays responsive.
+
+If you want lower latency instead, use the `run_agent_fast` launchers.
+
+Additional timing knobs:
+
+- `AGENT_ASYNC_SELECTING_HAND`: when `1`, heavy hand planning runs in a background worker and the mod polls for the finished answer.
+- `AGENT_SELECTING_HAND_TIME_BUDGET_MS`: hard wall-clock budget for one hand decision, including JS solver and Python fallback work.
+- `AGENT_PLANNER_HEADROOM_MS`: reserves some budget so the planner can still return a fallback action instead of running right up to the deadline.
+- `AGENT_JS_ROUND_SOLVER_MIN_TIMEOUT_MS`: minimum remaining budget required before the JS solver is allowed to run.
 
 ## 7. Common Problems
 
 - No response in game: make sure the backend is already running before Balatro reaches a playable phase.
+- Nothing happens at the menu: expected. Start or continue a run yourself, and the mod will take over once the run reaches gameplay.
+- Short pauses between actions are normal in quality mode: the server may return `NO_OP` while a deeper selecting-hand search is still running, then execute the chosen play on the next poll.
+- Lovely parse error on startup: overwrite `%AppData%\Balatro\Mods\AgentMod\lovely.toml` and `%AppData%\Balatro\Mods\AgentMod\agent.lua` from the current repo version.
 - Connection refused: confirm that `lua/agent.lua` and the backend both use `127.0.0.1:12345`.
 - No exact solver: install Node.js, or leave the JS solver disabled and let the Python fallback run.
-- Slow decisions: reduce `AGENT_MC_ROLLOUTS` or `AGENT_MC_MAX_CANDIDATES`.
+- Slow decisions: reduce `AGENT_SELECTING_HAND_TIME_BUDGET_MS`, `AGENT_MC_ROLLOUTS`, or `AGENT_MC_MAX_CANDIDATES`, or switch to `run_agent_fast`.
+- Frame hitches during planning: the bridge now uses short phase-specific socket timeouts plus async hand planning. If you still want lower latency, lower `AGENT_SELECTING_HAND_TIME_BUDGET_MS` or use `run_agent_fast`.
 - No logs: ensure the repository is writable and `AGENT_TRACE_ENABLED=1`.
 
 ## 8. Recommended Workflow For Tuning

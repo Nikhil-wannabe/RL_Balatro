@@ -1,0 +1,30 @@
+@echo off
+setlocal
+
+echo ========================================
+echo Starting Balatro Agent Server (Fast)
+echo ========================================
+
+cd /d "%~dp0\.."
+
+set PYTHONPATH=python
+set AGENT_HOST=127.0.0.1
+set AGENT_PORT=12345
+set AGENT_LOG_LEVEL=INFO
+set AGENT_ASYNC_SELECTING_HAND=1
+set AGENT_SELECTING_HAND_TIME_BUDGET_MS=900
+set AGENT_PLANNER_HEADROOM_MS=125
+set AGENT_JS_ROUND_SOLVER_MIN_TIMEOUT_MS=250
+set AGENT_MC_ROLLOUTS=24
+set AGENT_MC_SEED=42
+set AGENT_MC_MIN_ROLLOUTS=4
+set AGENT_MC_MAX_CANDIDATES=10
+set AGENT_MC_REFINE_TOP_K=3
+set AGENT_MC_CONFIDENCE_MULTIPLIER=1.5
+set AGENT_JS_ROUND_SOLVER=0
+set AGENT_JS_ROUND_SOLVER_TIMEOUT_MS=600
+set AGENT_TRACE_ENABLED=1
+set AGENT_TRACE_DIR=logs
+
+python python/main.py
+endlocal

@@ -317,6 +317,10 @@ function buildHandsArray(handLevels) {
   });
 }
 
+function bossName(state) {
+  return state.blind?.boss_modifier || state.blind?.name || "";
+}
+
 function bigintLikeToNumber(score) {
   if (!Number.isFinite(score.mantissa) || !Number.isFinite(score.exponent)) return Number.MAX_VALUE;
   if (score.exponent > 300) return Number.MAX_VALUE;
@@ -338,8 +342,8 @@ function evaluatePlay(state, fullHand, playedCards) {
     cardsInHand: heldCards.map(encodeCard),
     jokers: encodedJokers,
     hands: buildHandsArray(state.hand_levels),
-    TheFlint: state.blind?.name === "The Flint",
-    TheEye: state.blind?.name === "The Eye",
+    TheFlint: bossName(state) === "The Flint",
+    TheEye: bossName(state) === "The Eye",
     breakdown: false,
   });
   hand.compileAll();

@@ -21,7 +21,7 @@ class JSRoundSolver:
     def is_available(self) -> bool:
         return config.JS_ROUND_SOLVER and self.script_path.exists()
 
-    def solve(self, state: BalatroState) -> Optional[ActionResponse]:
+    def solve(self, state: BalatroState, *, timeout_ms: Optional[int] = None) -> Optional[ActionResponse]:
         self.last_diagnostics = None
         self.last_failure = None
         if not self.is_available():
@@ -40,6 +40,7 @@ class JSRoundSolver:
             "--beam",
             str(config.JS_ROUND_SOLVER_BEAM),
         ]
+        effective_timeout_ms = timeout_ms if timeout_ms is not None else config.JS_ROUND_SOLVER_TIMEOUT_MS
 
         try:
             result = subprocess.run(
@@ -47,7 +48,7 @@ class JSRoundSolver:
                 input=json.dumps(payload),
                 text=True,
                 capture_output=True,
-                timeout=max(0.2, config.JS_ROUND_SOLVER_TIMEOUT_MS / 1000.0),
+                timeout=max(0.2, effective_timeout_ms / 1000.0),
                 cwd=self.repo_root,
                 check=False,
             )
@@ -56,7 +57,7 @@ class JSRoundSolver:
             self.last_failure = "node_missing"
             return None
         except subprocess.TimeoutExpired:
-            logger.warning("JS round solver timed out after %sms; falling back to Python planner.", config.JS_ROUND_SOLVER_TIMEOUT_MS)
+            logger.warning("JS round solver timed out after %sms; falling back to Python planner.", effective_timeout_ms)
             self.last_failure = "timeout"
             return None
         except Exception as exc:

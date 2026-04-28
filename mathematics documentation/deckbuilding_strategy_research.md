@@ -1,4 +1,4 @@
-# Deck-Building Strategy Research
+﻿# Deck-Building Strategy Research
 
 This document distills the internet research that informed the current shop and deck-building policy.
 
@@ -91,7 +91,7 @@ Core ideas:
 
 Research signals:
 - `Shortcut` and `Four Fingers` have repeated documented synergy.
-- `Runner`, `Devious Joker`, `Crazy Joker`, `Superposition`, and `Séance` all improve once straights become reliable.
+- `Runner`, `Devious Joker`, `Crazy Joker`, `Superposition`, and `Seance` all improve once straights become reliable.
 - `Abandoned Deck` and `Checkered Deck` improve straight odds.
 
 Operational rules now encoded:
@@ -173,3 +173,4 @@ This is not a trained model yet, but it is already much more expressive than a s
 - [Balatro Wiki: Smeared Joker](https://balatrogame.fandom.com/wiki/Smeared_Joker)
 - [Reddit: Gold Stake deck discussion](https://www.reddit.com/r/balatro/comments/1qh9rl4/how_i_rank_balatro_decks_at_gold_stake/)
 - [GameStrategyHub: Gold Stake unlock guide](https://gamestrategyhub.com/games/balatro/guides/how-to-unlock-gold-stake-fast/)
+

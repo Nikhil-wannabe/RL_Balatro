@@ -1,0 +1,39 @@
+2026-04-27 19:00:04 | INFO    | Planner  | Planning for phase SELECTING_HAND.
+2026-04-27 19:00:04 | INFO    | Planner  | --- PLANNING START | Ante 1, Round 1 | Target: 450 ---
+2026-04-27 19:00:04 | INFO    | Planner  | Planning for phase SELECTING_HAND.
+2026-04-27 19:00:04 | INFO    | Planner  | --- PLANNING START | Ante 1, Round 1 | Target: 450 ---
+2026-04-27 19:00:04 | INFO    | Planner  | Evaluating discard lines via exact+deterministic Monte Carlo search...
+2026-04-27 19:00:04 | INFO    | Planner  | Evaluating discard lines via exact+deterministic Monte Carlo search...
+2026-04-27 19:00:12 | INFO    | Planner  | [Mode Decision] Tactical Mode: DESPERATION | Best Immediate Score: 15.0 | Conservative Clear: 0.67
+2026-04-27 19:00:12 | INFO    | Planner  | [Top 3 Actions]
+2026-04-27 19:00:12 | INFO    | Planner  |   #1: DISCARD (cards: 1) | Rank: (0.66596768, 0.8, -0.0, 0.0, -0.69171717) | EV: 123.7 | Pclear_LCB: 0.666
+2026-04-27 19:00:12 | INFO    | Planner  |   #2: PLAY_HAND (cards: 3) | Rank: (0.1, 0.0, -0.70029162, 0.0, -0.93333333) | EV: 15.0 | Pclear_LCB: 0.100
+2026-04-27 19:00:12 | INFO    | Planner  |   #3: PLAY_HAND (cards: 3) | Rank: (0.1, 0.0, -0.70029162, 0.0, -0.93333333) | EV: 15.0 | Pclear_LCB: 0.100
+2026-04-27 19:00:12 | INFO    | Planner  | --- DECISION SUMMARY ---
+2026-04-27 19:00:12 | INFO    | Planner  | Action: DISCARD
+2026-04-27 19:00:12 | INFO    | Planner  | Cards: ['c8']
+2026-04-27 19:00:12 | INFO    | Planner  | Rank Tuple: (0.66596768, 0.8, -0.0, 0.0, -0.69171717, 0.5149027, 0.27494949, 0.27853366, 0.54, -0.0, 1.09979798, 1, 3, -1, ('c8',))
+2026-04-27 19:00:12 | INFO    | Planner  | ------------------------
+2026-04-27 19:00:12 | INFO    | Planner  | [Mode Decision] Tactical Mode: DESPERATION | Best Immediate Score: 15.0 | Conservative Clear: 0.67
+2026-04-27 19:00:12 | INFO    | Planner  | [Top 3 Actions]
+2026-04-27 19:00:12 | INFO    | Planner  |   #1: DISCARD (cards: 1) | Rank: (0.66596768, 0.8, -0.0, 0.0, -0.69171717) | EV: 123.7 | Pclear_LCB: 0.666
+2026-04-27 19:00:12 | INFO    | Planner  |   #2: PLAY_HAND (cards: 3) | Rank: (0.1, 0.0, -0.70029162, 0.0, -0.93333333) | EV: 15.0 | Pclear_LCB: 0.100
+2026-04-27 19:00:12 | INFO    | Planner  |   #3: PLAY_HAND (cards: 3) | Rank: (0.1, 0.0, -0.70029162, 0.0, -0.93333333) | EV: 15.0 | Pclear_LCB: 0.100
+2026-04-27 19:00:12 | INFO    | Planner  | --- DECISION SUMMARY ---
+2026-04-27 19:00:12 | INFO    | Planner  | Action: DISCARD
+2026-04-27 19:00:12 | INFO    | Planner  | Cards: ['c8']
+2026-04-27 19:00:12 | INFO    | Planner  | Rank Tuple: (0.66596768, 0.8, -0.0, 0.0, -0.69171717, 0.5149027, 0.27494949, 0.27853366, 0.54, -0.0, 1.09979798, 1, 3, -1, ('c8',))
+2026-04-27 19:00:12 | INFO    | Planner  | ------------------------
+2026-04-27 19:35:27 | INFO    | Planner  | Planning for phase SELECTING_HAND.
+2026-04-27 19:35:27 | INFO    | Planner  | --- PLANNING START | Ante 2, Round 2 | Target: 600 ---
+2026-04-27 19:35:27 | INFO    | Planner  | Evaluating discard lines via exact+deterministic Monte Carlo search...
+2026-04-27 19:35:43 | INFO    | Planner  | [Mode Decision] Tactical Mode: SAFE_CLEAR | Best Immediate Score: 88.0 | Conservative Clear: 0.95
+2026-04-27 19:35:43 | INFO    | Planner  | [Top 3 Actions]
+2026-04-27 19:35:43 | INFO    | Planner  |   #1: DISCARD (cards: 2) | Rank: (0.95, 0.95, -0.0, 0.0, 0.38447205) | EV: 423.1 | Pclear_LCB: 0.950
+2026-04-27 19:35:43 | INFO    | Planner  |   #2: DISCARD (cards: 1) | Rank: (0.95, 0.95, -0.00022748, 0.0, -0.11630435) | EV: 318.5 | Pclear_LCB: 0.950
+2026-04-27 19:35:43 | INFO    | Planner  |   #3: DISCARD (cards: 1) | Rank: (0.95, 0.95, -0.00022748, 0.0, -0.11630435) | EV: 318.5 | Pclear_LCB: 0.950
+2026-04-27 19:35:43 | INFO    | Planner  | --- DECISION SUMMARY ---
+2026-04-27 19:35:43 | INFO    | Planner  | Action: DISCARD
+2026-04-27 19:35:43 | INFO    | Planner  | Cards: ['h8', 'h7']
+2026-04-27 19:35:43 | INFO    | Planner  | Rank Tuple: (0.95, 0.95, -0.0, 0.0, 0.38447205, 2.29242851, 0.91987578, 0.66800585, 0.42, -0.0, 1.37981366, 3, 1, -2, ('h7', 'h8'))
+2026-04-27 19:35:43 | INFO    | Planner  | ------------------------

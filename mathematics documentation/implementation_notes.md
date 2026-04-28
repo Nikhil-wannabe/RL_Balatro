@@ -1,4 +1,4 @@
-# Implementation Notes
+﻿# Implementation Notes
 
 ## Runtime Architecture
 
@@ -77,7 +77,7 @@ That is a quality-of-control choice, not a claim that packs are bad in Balatro. 
 
 ## Remaining Gaps
 
-The repository is materially stronger than before, but it is not yet a proven “beats every stake on every seed” system.
+The repository is materially stronger than before, but it is not yet a proven "beats every stake on every seed" system.
 
 The biggest remaining gaps are:
 - deeper shop/planning logic across many rounds,
@@ -87,3 +87,4 @@ The biggest remaining gaps are:
 - systematic empirical benchmarking on gold-stake runs.
 
 That is the right next layer of work if the goal is a truly competitive autonomous bot rather than a strong tactical autoplayer.
+

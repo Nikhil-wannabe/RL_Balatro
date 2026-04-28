@@ -18,7 +18,8 @@ A deterministic Balatro autoplayer that combines:
 
 ## Usage
 1. Place `lua/` contents in Steam Balatro Mods folder.
-2. Run `scripts/run_agent.bat` or `scripts/run_agent.sh` to start the Python IPC Server.
+2. Run `scripts/run_agent.bat` or `scripts/run_agent.sh` for the quality-first server profile.
+   Use `scripts/run_agent_fast.bat` or `scripts/run_agent_fast.sh` if you want lower latency instead.
 3. Open Balatro. The agent will autonomously:
    - select blinds,
    - play and discard cards,
@@ -29,3 +30,4 @@ A deterministic Balatro autoplayer that combines:
 Practical setup guides:
 - [Running the Agent](/C:/Users/nkris/OneDrive/Documents/RL_Balatro/docs/running_the_agent.md)
 - [Mod Installation](/C:/Users/nkris/OneDrive/Documents/RL_Balatro/docs/mod_installation.md)
+- [Work Done So Far](/C:/Users/nkris/OneDrive/Documents/RL_Balatro/docs/work_done/README.md)

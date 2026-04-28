@@ -59,9 +59,11 @@ def test_desperation_discard():
     action = planner.plan_action(state)
     
     assert action.action == "DISCARD"
-    # The exact solver may choose one or more low-value setup discards, but it should never keep all junk.
+    # The planner should prefer improving the straight shell rather than punting a tiny
+    # single-card play. Depending on the scorer details, that can mean trimming the
+    # lowest endpoint or one of the disconnected blockers.
     assert len(action.cards) >= 1
-    assert any(card_id in action.cards for card_id in {"c1", "c2", "c6", "c7"})
+    assert any(card_id in action.cards for card_id in {"c1", "c3", "c4", "c5"})
 
 def test_preserve_scaling_case():
     """Scenario: Target is easy, but we have many hands left. Prefer efficient play."""

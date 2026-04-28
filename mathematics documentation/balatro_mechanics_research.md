@@ -1,4 +1,4 @@
-# Balatro Mechanics Research
+﻿# Balatro Mechanics Research
 
 ## Objective
 
@@ -38,7 +38,7 @@ Each action is either:
 - `PLAY_HAND`: consume a subset of cards, score them, then refill to hand size.
 - `DISCARD`: throw away a subset of cards, then refill to hand size.
 
-This repo now serializes the exact visible draw pile and discard pile from Lua when that data is available, which is much stronger than the old “assume a fresh 52-card deck minus hand” approximation.
+This repo now serializes the exact visible draw pile and discard pile from Lua when that data is available, which is much stronger than the old "assume a fresh 52-card deck minus hand" approximation.
 
 ### 3. Hand levels
 
@@ -64,11 +64,11 @@ Scoring is order-sensitive. At a high level:
 5. score Jokers,
 6. apply deck-level modifiers.
 
-That order is why an exact scorer matters: late-game Joker boards are not well approximated by “raw chips plus a few bonuses”.
+That order is why an exact scorer matters: late-game Joker boards are not well approximated by "raw chips plus a few bonuses".
 
 ### 5. Stakes
 
-The stake system matters because higher stakes reduce the agent’s error budget.
+The stake system matters because higher stakes reduce the agent's error budget.
 
 Practical implications for the agent:
 - weaker economy recovery,
@@ -100,7 +100,7 @@ The shop policy in this repo therefore scores rental/perishable/eternal stickers
 
 ## Why Gold Stake Is Hard
 
-Gold-stake autonomy is difficult because the control problem is not “find the biggest hand now”. It is:
+Gold-stake autonomy is difficult because the control problem is not "find the biggest hand now". It is:
 
 \[
 \max_\pi \Pr(\text{survive all antes} \mid \text{stake, deck, joker board, economy})
@@ -121,3 +121,4 @@ That is why this implementation uses a hybrid approach instead of one monolithic
 - [Balatro Wiki: Blinds and Antes](https://balatrogame.fandom.com/wiki/Blinds_and_Antes)
 - [Balatro Calculator (EFHIII)](https://github.com/EFHIII/balatro-calculator)
 - [Balatro Calculator DeepWiki: Hand Scoring System](https://deepwiki.com/EFHIII/balatro-calculator/3.1-hand-scoring-system)
+
