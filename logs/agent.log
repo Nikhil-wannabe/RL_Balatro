@@ -8239,3 +8239,166 @@ economy
 2026-04-28 21:47:43 | INFO    | Shop     | Buying shop item 'Jolly Joker' (score 6.93).
 2026-04-28 21:47:43 | INFO    | Shop     | Waiting for shop inventory to populate before deciding.
 2026-04-28 21:47:43 | INFO    | Shop     | Buying shop item 'Celestial Pack' (score 9.21).
+2026-04-28 22:24:17 | INFO    | Server   | [Server] Received State | Blind: Big Blind | Score: 0/600 | Hand: 1 cards
+2026-04-28 22:24:17 | INFO    | Planner  | Planning for phase SELECTING_HAND.
+2026-04-28 22:24:17 | INFO    | Planner  | --- PLANNING START | Ante 2, Round 1 | Target: 600 ---
+2026-04-28 22:24:17 | INFO    | Planner  | Evaluating discard lines via exact+deterministic Monte Carlo search...
+2026-04-28 22:24:17 | INFO    | Planner  | [Mode Decision] Tactical Mode: DESPERATION | Best Immediate Score: 15.0 | Conservative Clear: 0.10
+2026-04-28 22:24:17 | INFO    | Planner  | [Top 3 Actions]
+2026-04-28 22:24:17 | INFO    | Planner  |   #1: DISCARD (cards: 1) | Rank: (0.1, 0.1, -0.0, 0.0, -0.96506998) | EV: 12.0 | Pclear_LCB: 0.100
+2026-04-28 22:24:17 | INFO    | Planner  |   #2: PLAY_HAND (cards: 1) | Rank: (0.1, 0.0, -4.497e-05, 0.0, -0.95) | EV: 15.0 | Pclear_LCB: 0.100
+2026-04-28 22:24:17 | INFO    | Planner  | --- DECISION SUMMARY ---
+2026-04-28 22:24:17 | INFO    | Planner  | Action: DISCARD
+2026-04-28 22:24:17 | INFO    | Planner  | Cards: ['c1']
+2026-04-28 22:24:17 | INFO    | Planner  | Rank Tuple: (0.1, 0.1, -0.0, 0.0, -0.96506998, 0.0, 0.01997014, -0.04043038, 0.57, -0.0, 0.07988054, 1, 1, -1, ('c1',))
+2026-04-28 22:24:17 | INFO    | Planner  | ------------------------
+2026-04-28 22:24:17 | INFO    | Server   | [Server] Sending Action: DISCARD | Latency: 0.015s
+2026-04-28 22:24:17 | ERROR   | Server   | [Server] Malformed JSON payload received: Expecting property name enclosed in double quotes: line 1 column 3 (char 2)
+2026-04-28 22:24:17 | ERROR   | Server   | [Server] Error handling request: 1 validation error for BalatroState
+economy
+  Field required [type=missing, input_value={'meta': {'protocol_versi...hand': [], 'jokers': []}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/missing
+Traceback (most recent call last):
+  File "C:\Users\nkris\OneDrive\Documents\RL_Balatro\python\server.py", line 161, in handle_request
+    state = BalatroState(**raw_json)
+  File "C:\Users\nkris\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\pydantic\main.py", line 250, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+pydantic_core._pydantic_core.ValidationError: 1 validation error for BalatroState
+economy
+  Field required [type=missing, input_value={'meta': {'protocol_versi...hand': [], 'jokers': []}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/missing
+2026-04-28 22:24:18 | INFO    | Planner  | Planning for phase ROUND_EVAL.
+2026-04-28 22:24:18 | INFO    | Planner  | Planning for phase BLIND_SELECT.
+2026-04-28 22:24:18 | INFO    | Planner  | Planning for phase PACK_CHOICE.
+2026-04-28 22:24:18 | INFO    | Pack     | Taking pack item 'Green Joker' from Buffoon pack (score 18.01).
+2026-04-28 22:24:18 | INFO    | Planner  | Planning for phase SELECTING_HAND.
+2026-04-28 22:24:18 | INFO    | Planner  | --- PLANNING START | Ante 1, Round 1 | Target: 100 ---
+2026-04-28 22:24:18 | INFO    | Planner  | Evaluating discard lines via exact+deterministic Monte Carlo search...
+2026-04-28 22:24:22 | INFO    | Planner  | [Mode Decision] Tactical Mode: LETHAL | Best Immediate Score: 180.0 | Conservative Clear: 1.00
+2026-04-28 22:24:22 | INFO    | Planner  | [Top 3 Actions]
+2026-04-28 22:24:22 | INFO    | Planner  |   #1: PLAY_HAND (cards: 3) | Rank: (1.0, 1.0, -0.0, 1.0, 1.8) | EV: 180.0 | Pclear_LCB: 1.000
+2026-04-28 22:24:22 | INFO    | Planner  |   #2: PLAY_HAND (cards: 4) | Rank: (1.0, 1.0, -0.0, 1.0, 1.8) | EV: 180.0 | Pclear_LCB: 1.000
+2026-04-28 22:24:22 | INFO    | Planner  |   #3: PLAY_HAND (cards: 4) | Rank: (1.0, 1.0, -0.0, 1.0, 1.8) | EV: 180.0 | Pclear_LCB: 1.000
+2026-04-28 22:24:22 | INFO    | Planner  | --- DECISION SUMMARY ---
+2026-04-28 22:24:22 | INFO    | Planner  | Action: PLAY_HAND
+2026-04-28 22:24:22 | INFO    | Planner  | Cards: ['C_1', 'C_2', 'C_3']
+2026-04-28 22:24:22 | INFO    | Planner  | Rank Tuple: (1.0, 1.0, -0.0, 1.0, 1.8, 6.2, 1.8, 0.0, 0.5, -0.8, 2.4, 4, 4, -3, ('C_1', 'C_2', 'C_3'))
+2026-04-28 22:24:22 | INFO    | Planner  | ------------------------
+2026-04-28 22:24:22 | INFO    | Planner  | Planning for phase SELECTING_HAND.
+2026-04-28 22:24:22 | INFO    | Planner  | --- PLANNING START | Ante 1, Round 1 | Target: 300 ---
+2026-04-28 22:24:23 | INFO    | Planner  | Evaluating discard lines via exact+deterministic Monte Carlo search...
+2026-04-28 22:24:31 | INFO    | Planner  | [Mode Decision] Tactical Mode: LETHAL | Best Immediate Score: 1120.0 | Conservative Clear: 1.00
+2026-04-28 22:24:31 | INFO    | Planner  | [Top 3 Actions]
+2026-04-28 22:24:31 | INFO    | Planner  |   #1: PLAY_HAND (cards: 5) | Rank: (1.0, 1.0, -0.0, 1.0, 3.73333333) | EV: 1120.0 | Pclear_LCB: 1.000
+2026-04-28 22:24:31 | INFO    | Planner  |   #2: DISCARD (cards: 1) | Rank: (0.96, 1.0, -0.0001, 0.0, 3.73333333) | EV: 1120.0 | Pclear_LCB: 0.960
+2026-04-28 22:24:31 | INFO    | Planner  |   #3: DISCARD (cards: 1) | Rank: (0.96, 1.0, -0.0001, 0.0, 3.73333333) | EV: 1120.0 | Pclear_LCB: 0.960
+2026-04-28 22:24:31 | INFO    | Planner  | --- DECISION SUMMARY ---
+2026-04-28 22:24:31 | INFO    | Planner  | Action: PLAY_HAND
+2026-04-28 22:24:31 | INFO    | Planner  | Cards: ['c1', 'c2', 'c3', 'c4', 'c5']
+2026-04-28 22:24:31 | INFO    | Planner  | Rank Tuple: (1.0, 1.0, -0.0, 1.0, 3.73333333, 13.99333333, 3.73333333, 0.0, 0.5, -1.0, 2.98666667, 4, 4, -5, ('c1', 'c2', 'c3', 'c4', 'c5'))
+2026-04-28 22:24:31 | INFO    | Planner  | ------------------------
+2026-04-28 22:24:31 | INFO    | Planner  | Planning for phase SELECTING_HAND.
+2026-04-28 22:24:31 | INFO    | Planner  | --- PLANNING START | Ante 1, Round 1 | Target: 60 ---
+2026-04-28 22:24:32 | INFO    | Planner  | Evaluating discard lines via exact+deterministic Monte Carlo search...
+2026-04-28 22:24:37 | INFO    | Planner  | [Mode Decision] Tactical Mode: DESPERATION | Best Immediate Score: 15.0 | Conservative Clear: 0.78
+2026-04-28 22:24:37 | INFO    | Planner  | [Top 3 Actions]
+2026-04-28 22:24:37 | INFO    | Planner  |   #1: DISCARD (cards: 1) | Rank: (0.77509091, 0.8, -2.2e-06, 0.0, 0.44545455) | EV: 71.7 | Pclear_LCB: 0.775
+2026-04-28 22:24:37 | INFO    | Planner  |   #2: DISCARD (cards: 1) | Rank: (0.7469697, 0.8, -0.0, 0.0, 0.40151515) | EV: 69.1 | Pclear_LCB: 0.747
+2026-04-28 22:24:37 | INFO    | Planner  |   #3: DISCARD (cards: 1) | Rank: (0.35, 0.5, -0.30002576, 0.0, 0.21666667) | EV: 58.0 | Pclear_LCB: 0.350
+2026-04-28 22:24:37 | INFO    | Planner  | --- DECISION SUMMARY ---
+2026-04-28 22:24:37 | INFO    | Planner  | Action: DISCARD
+2026-04-28 22:24:37 | INFO    | Planner  | Cards: ['c3']
+2026-04-28 22:24:37 | INFO    | Planner  | Rank Tuple: (0.77509091, 0.8, -2.2e-06, 0.0, 0.44545455, 0.04886364, 1.19545455, 0.17978302, 0.12, -0.19545455, 1.19545455, 1, 3, -1, ('c3',))
+2026-04-28 22:24:37 | INFO    | Planner  | ------------------------
+2026-04-28 22:24:37 | INFO    | Planner  | Planning for phase SELECTING_HAND.
+2026-04-28 22:24:37 | INFO    | Planner  | --- PLANNING START | Ante 1, Round 1 | Target: 50 ---
+2026-04-28 22:24:37 | INFO    | Planner  | Evaluating discard lines via exact+deterministic Monte Carlo search...
+2026-04-28 22:24:44 | INFO    | Planner  | [Mode Decision] Tactical Mode: LETHAL | Best Immediate Score: 324.0 | Conservative Clear: 1.00
+2026-04-28 22:24:44 | INFO    | Planner  | [Top 3 Actions]
+2026-04-28 22:24:44 | INFO    | Planner  |   #1: PLAY_HAND (cards: 2) | Rank: (1.0, 1.0, -0.0, 1.0, 1.28) | EV: 64.0 | Pclear_LCB: 1.000
+2026-04-28 22:24:44 | INFO    | Planner  |   #2: PLAY_HAND (cards: 3) | Rank: (1.0, 1.0, -0.0, 1.0, 1.28) | EV: 64.0 | Pclear_LCB: 1.000
+2026-04-28 22:24:44 | INFO    | Planner  |   #3: PLAY_HAND (cards: 3) | Rank: (1.0, 1.0, -0.0, 1.0, 1.28) | EV: 64.0 | Pclear_LCB: 1.000
+2026-04-28 22:24:44 | INFO    | Planner  | --- DECISION SUMMARY ---
+2026-04-28 22:24:44 | INFO    | Planner  | Action: PLAY_HAND
+2026-04-28 22:24:44 | INFO    | Planner  | Cards: ['c1', 'c2']
+2026-04-28 22:24:44 | INFO    | Planner  | Rank Tuple: (1.0, 1.0, -0.0, 1.0, 1.28, 4.24, 1.28, 0.0, 0.5, -0.28, 2.56, 4, 4, -2, ('c1', 'c2'))
+2026-04-28 22:24:44 | INFO    | Planner  | ------------------------
+2026-04-28 22:24:44 | INFO    | Planner  | Planning for phase SELECTING_HAND.
+2026-04-28 22:24:44 | INFO    | Planner  | --- PLANNING START | Ante 1, Round 1 | Target: 10 ---
+2026-04-28 22:24:44 | INFO    | Planner  | Evaluating discard lines via exact+deterministic Monte Carlo search...
+2026-04-28 22:24:50 | INFO    | Planner  | [Mode Decision] Tactical Mode: LETHAL | Best Immediate Score: 504.0 | Conservative Clear: 1.00
+2026-04-28 22:24:50 | INFO    | Planner  | [Top 3 Actions]
+2026-04-28 22:24:50 | INFO    | Planner  |   #1: PLAY_HAND (cards: 4) | Rank: (1.0, 1.0, -0.0, 1.0, 50.4) | EV: 504.0 | Pclear_LCB: 1.000
+2026-04-28 22:24:50 | INFO    | Planner  |   #2: PLAY_HAND (cards: 5) | Rank: (1.0, 1.0, -0.0, 1.0, 50.4) | EV: 504.0 | Pclear_LCB: 1.000
+2026-04-28 22:24:50 | INFO    | Planner  |   #3: PLAY_HAND (cards: 3) | Rank: (1.0, 1.0, -0.0, 1.0, 11.7) | EV: 117.0 | Pclear_LCB: 1.000
+2026-04-28 22:24:50 | INFO    | Planner  | --- DECISION SUMMARY ---
+2026-04-28 22:24:50 | INFO    | Planner  | Action: PLAY_HAND
+2026-04-28 22:24:50 | INFO    | Planner  | Cards: ['c1', 'c2', 'c3', 'c4']
+2026-04-28 22:24:50 | INFO    | Planner  | Rank Tuple: (1.0, 1.0, -0.0, 1.0, 50.4, 200.6, 50.4, 0.0, 0.5, -1.0, 50.4, 4, 4, -4, ('c1', 'c2', 'c3', 'c4'))
+2026-04-28 22:24:50 | INFO    | Planner  | ------------------------
+2026-04-28 22:24:50 | INFO    | Planner  | Planning for phase SELECTING_HAND.
+2026-04-28 22:24:50 | INFO    | Planner  | --- PLANNING START | Ante 1, Round 1 | Target: 10 ---
+2026-04-28 22:24:50 | INFO    | Planner  | Evaluating discard lines via exact+deterministic Monte Carlo search...
+2026-04-28 22:24:55 | INFO    | Planner  | [Mode Decision] Tactical Mode: LETHAL | Best Immediate Score: 504.0 | Conservative Clear: 1.00
+2026-04-28 22:24:55 | INFO    | Planner  | [Top 3 Actions]
+2026-04-28 22:24:55 | INFO    | Planner  |   #1: PLAY_HAND (cards: 4) | Rank: (1.0, 1.0, -0.0, 1.0, 50.4) | EV: 504.0 | Pclear_LCB: 1.000
+2026-04-28 22:24:55 | INFO    | Planner  |   #2: PLAY_HAND (cards: 5) | Rank: (1.0, 1.0, -0.0, 1.0, 50.4) | EV: 504.0 | Pclear_LCB: 1.000
+2026-04-28 22:24:55 | INFO    | Planner  |   #3: PLAY_HAND (cards: 3) | Rank: (1.0, 1.0, -0.0, 1.0, 11.7) | EV: 117.0 | Pclear_LCB: 1.000
+2026-04-28 22:24:55 | INFO    | Planner  | --- DECISION SUMMARY ---
+2026-04-28 22:24:55 | INFO    | Planner  | Action: PLAY_HAND
+2026-04-28 22:24:55 | INFO    | Planner  | Cards: ['c1', 'c2', 'c3', 'c4']
+2026-04-28 22:24:55 | INFO    | Planner  | Rank Tuple: (1.0, 1.0, -0.0, 1.0, 50.4, 200.6, 50.4, 0.0, 0.5, -1.0, 50.4, 4, 4, -4, ('c1', 'c2', 'c3', 'c4'))
+2026-04-28 22:24:55 | INFO    | Planner  | ------------------------
+2026-04-28 22:24:55 | INFO    | Planner  | Planning for phase SELECTING_HAND.
+2026-04-28 22:24:55 | INFO    | Planner  | --- PLANNING START | Ante 1, Round 1 | Target: 5000 ---
+2026-04-28 22:24:55 | INFO    | Planner  | Evaluating discard lines via exact+deterministic Monte Carlo search...
+2026-04-28 22:24:55 | INFO    | Planner  | [Mode Decision] Tactical Mode: DESPERATION | Best Immediate Score: 15.0 | Conservative Clear: 0.10
+2026-04-28 22:24:55 | INFO    | Planner  | [Top 3 Actions]
+2026-04-28 22:24:55 | INFO    | Planner  |   #1: PLAY_HAND (cards: 3) | Rank: (0.1, 0.0, -0.0, 0.0, -0.994) | EV: 15.0 | Pclear_LCB: 0.100
+2026-04-28 22:24:55 | INFO    | Planner  |   #2: PLAY_HAND (cards: 3) | Rank: (0.1, 0.0, -0.0, 0.0, -0.994) | EV: 15.0 | Pclear_LCB: 0.100
+2026-04-28 22:24:55 | INFO    | Planner  |   #3: PLAY_HAND (cards: 3) | Rank: (0.1, 0.0, -0.0, 0.0, -0.994) | EV: 15.0 | Pclear_LCB: 0.100
+2026-04-28 22:24:55 | INFO    | Planner  | --- DECISION SUMMARY ---
+2026-04-28 22:24:55 | INFO    | Planner  | Action: PLAY_HAND
+2026-04-28 22:24:55 | INFO    | Planner  | Cards: ['c3', 'c4', 'c5']
+2026-04-28 22:24:55 | INFO    | Planner  | Rank Tuple: (0.1, 0.0, -0.0, 0.0, -0.994, -0.3476, 0.003, 0.0, 0.3, -0.0, 0.002, 1, 1, -3, ('c3', 'c4', 'c5'))
+2026-04-28 22:24:55 | INFO    | Planner  | ------------------------
+2026-04-28 22:24:55 | INFO    | Planner  | Planning for phase SELECTING_HAND.
+2026-04-28 22:24:55 | INFO    | Planner  | --- PLANNING START | Ante 1, Round 1 | Target: 5000 ---
+2026-04-28 22:24:56 | INFO    | Planner  | Evaluating discard lines via exact+deterministic Monte Carlo search...
+2026-04-28 22:24:56 | INFO    | Planner  | [Mode Decision] Tactical Mode: DESPERATION | Best Immediate Score: 15.0 | Conservative Clear: 0.10
+2026-04-28 22:24:56 | INFO    | Planner  | [Top 3 Actions]
+2026-04-28 22:24:56 | INFO    | Planner  |   #1: PLAY_HAND (cards: 3) | Rank: (0.1, 0.0, -0.0, 0.0, -0.994) | EV: 15.0 | Pclear_LCB: 0.100
+2026-04-28 22:24:56 | INFO    | Planner  |   #2: PLAY_HAND (cards: 3) | Rank: (0.1, 0.0, -0.0, 0.0, -0.994) | EV: 15.0 | Pclear_LCB: 0.100
+2026-04-28 22:24:56 | INFO    | Planner  |   #3: PLAY_HAND (cards: 3) | Rank: (0.1, 0.0, -0.0, 0.0, -0.994) | EV: 15.0 | Pclear_LCB: 0.100
+2026-04-28 22:24:56 | INFO    | Planner  | --- DECISION SUMMARY ---
+2026-04-28 22:24:56 | INFO    | Planner  | Action: PLAY_HAND
+2026-04-28 22:24:56 | INFO    | Planner  | Cards: ['c3', 'c4', 'c5']
+2026-04-28 22:24:56 | INFO    | Planner  | Rank Tuple: (0.1, 0.0, -0.0, 0.0, -0.994, -0.3476, 0.003, 0.0, 0.3, -0.0, 0.002, 1, 1, -3, ('c3', 'c4', 'c5'))
+2026-04-28 22:24:56 | INFO    | Planner  | ------------------------
+2026-04-28 22:24:56 | INFO    | Planner  | Planning for phase SELECTING_HAND.
+2026-04-28 22:24:56 | INFO    | Planner  | --- PLANNING START | Ante 1, Round 1 | Target: 300 ---
+2026-04-28 22:24:56 | WARNING | Planner  | No hands left, returning NO_OP.
+2026-04-28 22:24:56 | ERROR   | Server   | [Server] Malformed JSON payload received: Expecting property name enclosed in double quotes: line 1 column 3 (char 2)
+2026-04-28 22:24:56 | INFO    | Server   | [Server] Received State | Blind: Big Blind | Score: 0/600 | Hand: 1 cards
+2026-04-28 22:24:56 | INFO    | Planner  | Planning for phase SELECTING_HAND.
+2026-04-28 22:24:56 | INFO    | Planner  | --- PLANNING START | Ante 2, Round 1 | Target: 600 ---
+2026-04-28 22:24:56 | INFO    | Planner  | Evaluating discard lines via exact+deterministic Monte Carlo search...
+2026-04-28 22:24:56 | INFO    | Planner  | [Mode Decision] Tactical Mode: DESPERATION | Best Immediate Score: 15.0 | Conservative Clear: 0.10
+2026-04-28 22:24:56 | INFO    | Planner  | [Top 3 Actions]
+2026-04-28 22:24:56 | INFO    | Planner  |   #1: DISCARD (cards: 1) | Rank: (0.1, 0.1, -0.0, 0.0, -0.96506998) | EV: 12.0 | Pclear_LCB: 0.100
+2026-04-28 22:24:56 | INFO    | Planner  |   #2: PLAY_HAND (cards: 1) | Rank: (0.1, 0.0, -4.497e-05, 0.0, -0.95) | EV: 15.0 | Pclear_LCB: 0.100
+2026-04-28 22:24:56 | INFO    | Planner  | --- DECISION SUMMARY ---
+2026-04-28 22:24:56 | INFO    | Planner  | Action: DISCARD
+2026-04-28 22:24:56 | INFO    | Planner  | Cards: ['c1']
+2026-04-28 22:24:56 | INFO    | Planner  | Rank Tuple: (0.1, 0.1, -0.0, 0.0, -0.96506998, 0.0, 0.01997014, -0.04043038, 0.57, -0.0, 0.07988054, 1, 1, -1, ('c1',))
+2026-04-28 22:24:56 | INFO    | Planner  | ------------------------
+2026-04-28 22:24:56 | INFO    | Server   | [Server] Sending Action: DISCARD | Latency: 0.025s
+2026-04-28 22:24:56 | INFO    | Server   | [Server] Received State | Blind: Big Blind | Score: 0/600 | Hand: 0 cards
+2026-04-28 22:24:56 | INFO    | Server   | [Server] Sending Action: NO_OP | Latency: 0.001s
+2026-04-28 22:24:56 | INFO    | Server   | [Server] Cache hit | Phase: SELECTING_HAND | Blind: Big Blind | Cached action: NO_OP | Last latency: 0.001s
+2026-04-28 22:24:56 | INFO    | Server   | [Server] Async planning started | Phase: SELECTING_HAND | Blind: Big Blind | Budget: 4500ms
+2026-04-28 22:24:56 | INFO    | Server   | [Server] Async result ready | Phase: SELECTING_HAND | Blind: Big Blind | Action: PLAY_HAND | Latency: 0.151s
+2026-04-28 22:24:56 | INFO    | Shop     | Buying shop item 'Overstock' (score 8.85).
+2026-04-28 22:24:56 | INFO    | Shop     | Buying shop item 'Jolly Joker' (score 6.93).
+2026-04-28 22:24:56 | INFO    | Shop     | Waiting for shop inventory to populate before deciding.
+2026-04-28 22:24:56 | INFO    | Shop     | Buying shop item 'Celestial Pack' (score 9.21).

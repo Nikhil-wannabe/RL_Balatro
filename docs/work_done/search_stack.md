@@ -104,3 +104,4 @@ flowchart LR
 
 The latest audit fixed the JS solver boss flag path so it reads `blind.boss_modifier` as well as `blind.name` before enabling The Flint or The Eye behavior.
 
+For the exact equations behind discard enumeration, multivariate hypergeometric aggregation, shared-pool Monte Carlo, ESS, Wilson lower bounds, CVaR, and minimax regret, see [Runtime Mathematical Specification](../../mathematics%20documentation/runtime_mathematical_spec.md).

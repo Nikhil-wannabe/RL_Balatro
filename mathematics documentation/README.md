@@ -3,6 +3,7 @@
 This folder documents the mathematical model behind the autonomous Balatro agent.
 
 Files:
+- `runtime_mathematical_spec.md`: code-mapped runtime specification for state, action spaces, boss constraints, hand classification, scoring, exact discard math, Monte Carlo statistics, robust ranking, tactical modes, and shop/pack scoring. This is the most comprehensive math reference.
 - `balatro_mechanics_research.md`: distilled research notes on the Balatro rules that matter for autonomy.
 - `deckbuilding_strategy_research.md`: deck-building archetypes, synergy notes, and how they inform the statistical shop model.
 - `deterministic_brain_layer_research.md`: source-backed design for a deterministic, risk-first brain layer using exact combinatorics, belief-state planning, robust ranking, and variance-reduced Monte Carlo, with ASCII-safe GitHub-readable equations and modular Mermaid diagrams.
@@ -14,3 +15,8 @@ The guiding principle is practical control under a short inference budget:
 - exact or near-exact scoring where it matters most,
 - stochastic lookahead for discard/play decisions,
 - conservative fallback logic when the expensive model would exceed the live game timeout.
+
+Rendering convention:
+- display equations use double-dollar display blocks,
+- inline equations use single-dollar inline math,
+- legacy parenthesis/bracket math delimiters are avoided so GitHub renders the documents consistently.

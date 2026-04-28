@@ -12,6 +12,9 @@ flowchart LR
     D --> E["Scoring and Boss Mechanics"]
     D --> F["Search Stack"]
     D --> G["Shop and Pack Planning"]
+    E --> I["Runtime Math Spec"]
+    F --> I
+    G --> I
     E --> H["Verification"]
     F --> H
     G --> H
@@ -26,6 +29,7 @@ flowchart LR
 - [Search Stack](search_stack.md): Python fallback search, exact discard enumeration, deterministic Monte Carlo, robust aggregation, and optional JS solver.
 - [Shop and Pack Planning](shop_and_pack_planning.md): shop buys, rerolls, booster evaluation, pack choices, and run-plan influence.
 - [Verification](verification.md): tests, smoke checks, current audit result, and documentation maintenance checklist.
+- [Runtime Mathematical Specification](../../mathematics%20documentation/runtime_mathematical_spec.md): comprehensive formulas mapped directly to the current code.
 
 ## Current Status
 

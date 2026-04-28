@@ -101,60 +101,78 @@ New effects:
 
 The live mult bonus is:
 
-```text
-Bootstraps_mult_bonus = mult_per_step * floor(money / dollars_per_step)
-```
+$$
+\Delta M_{\text{Bootstraps}}
+=
+m_{\text{step}}
+\left\lfloor
+\frac{\text{money}}{d_{\text{step}}}
+\right\rfloor.
+$$
 
 With the shipped config:
 
-```text
-mult_per_step = 2
-dollars_per_step = 5
-```
+$$
+m_{\text{step}}=2,
+\qquad
+d_{\text{step}}=5.
+$$
 
 so:
 
-```text
-Bootstraps_mult_bonus = 2 * floor(money / 5)
-```
+$$
+\Delta M_{\text{Bootstraps}}
+=
+2\left\lfloor\frac{\text{money}}{5}\right\rfloor.
+$$
 
 ### The Flint
 
 `The Flint` scales only the base hand layer, not every later additive or multiplicative effect:
 
-```text
-base_chips' = 0.5 * base_chips
-base_mult'  = 0.5 * base_mult
-```
+$$
+C_0' = 0.5 C_0,
+\qquad
+M_0' = 0.5 M_0.
+$$
 
 Then the normal scoring pipeline continues:
 
-```text
-final_score = (base_chips' + card_chip_additions + joker_chip_additions)
-              * (base_mult' + card_mult_additions + joker_mult_additions)
-              * product(xmult_effects)
-```
+$$
+S
+=
+\left(C_0' + \Delta C_{\text{cards}} + \Delta C_{\text{jokers}}\right)
+\left(M_0' + \Delta M_{\text{cards}} + \Delta M_{\text{jokers}}\right)
+\prod_{\ell} X_{\ell}.
+$$
 
 ### Bloodstone
 
 For deterministic planning, the expected xmult factor per Heart card is:
 
-```text
-E[X] = 1 + (Xmult_proc - 1) / odds
-```
+$$
+\mathbb{E}[X_{\text{Bloodstone}}]
+=
+1+\frac{x_{\text{proc}}-1}{o}.
+$$
 
 With:
 
-```text
-Xmult_proc = 1.5
-odds = 2
-```
+$$
+x_{\text{proc}} = 1.5,
+\qquad
+o = 2.
+$$
 
 that becomes:
 
-```text
-E[X] = 1 + (1.5 - 1) / 2 = 1.25
-```
+$$
+\mathbb{E}[X_{\text{Bloodstone}}]
+=
+1+\frac{1.5-1}{2}
+=
+1.25.
+$$
 
 This is not the exact distributional model, but it is a stable deterministic approximation that can be used in root ranking and exact/MC consistency checks.
 

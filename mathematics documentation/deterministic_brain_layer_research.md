@@ -87,18 +87,20 @@ Let `s` be the latent full game state, `b(s)` the current belief over possible l
 
 The root objective should be:
 
-```text
-Choose action a that maximizes the lexicographic objective:
+Choose action $a$ that maximizes the lexicographic objective:
 
-argmax_a  Lexicographic(
-    Pclear_cons(a),
-    Pclear_bma(a),
-    Q_alpha(a),
-    EV_longrun(a),
-    Resource(a),
-    TieBreak(a)
-)
-```
+$$
+a^* =
+\operatorname*{argmax}_{a \in \mathcal{A}(b)}
+\operatorname{Lex}\left(
+P_{\text{clear}}^{\text{cons}}(a),
+P_{\text{clear}}^{\text{BMA}}(a),
+Q_{\alpha}(a),
+EV_{\text{longrun}}(a),
+R_{\text{resource}}(a),
+\operatorname{TieBreak}(a)
+\right).
+$$
 
 where:
 
@@ -111,7 +113,9 @@ where:
 
 This is intentionally not a single scalar utility at the top level. A scalar utility can still be used inside subroutines, but the final root ranking should be lexicographic or epsilon-lexicographic because the user preference is explicit:
 
-`P(clear) > long-run EV > resource preservation`
+$$
+P(\text{clear}) \succ EV_{\text{longrun}} \succ R_{\text{resource}}.
+$$
 
 ## Existing Repository Fit
 
@@ -136,7 +140,7 @@ Use exact methods whenever any of the following is true:
 
 Recommended exact gate:
 
-```text
+```python
 if comb(remaining_deck_size, draw_count) <= EXACT_DRAW_ENUM_CAP:
     exact by exhaustive next-draw enumeration
 elif compressed_state_count <= EXACT_STATE_CAP:
@@ -157,16 +161,22 @@ Suggested defaults:
 
 If after discarding `k` cards we draw `k` cards without replacement from a remaining deck with category counts `K_1, ..., K_r`, and the draw outcome is summarized by category counts `x_1, ..., x_r`, then:
 
-```text
 Multivariate-hypergeometric draw law:
 
-P(X = x) = [ PROD_i C(K_i, x_i) ] / C(N, k)
-```
+$$
+\Pr(X=x)
+=
+\frac{\prod_{i=1}^{r} {K_i \choose x_i}}
+{{N \choose k}}.
+$$
 
 subject to:
 
-- `sum_i x_i = k`
-- `0 <= x_i <= K_i`
+$$
+\sum_{i=1}^{r} x_i = k,
+\qquad
+0 \le x_i \le K_i.
+$$
 
 This is the multivariate hypergeometric law.
 
@@ -187,17 +197,24 @@ For current-round planning, define:
 
 For known deck and fixed rule model:
 
-```text
 Finite-horizon blind-clear recursion:
 
-V(s, h, d, r) =
-    max_a SUM_o P(o | s, a) * V(T(s, a, o), h', d', r')
-```
+$$
+V(s,h,d,r)
+=
+\max_{a \in \mathcal{A}(s,h,d)}
+\sum_{o \in \Omega(a)}
+\Pr(o \mid s,a)\,
+V(T(s,a,o),h',d',r').
+$$
 
 with terminal conditions:
 
-- `V(..., r <= 0) = 1`
-- `V(..., h = 0 and r > 0) = 0`
+$$
+V(s,h,d,r \le 0)=1,
+\qquad
+V(s,0,d,r>0)=0.
+$$
 
 This is exact finite-horizon dynamic programming on the current blind.
 
@@ -269,11 +286,15 @@ class RulePosterior:
 
 Given observation `o` after action `a`, update:
 
-```text
 Belief update:
 
-b'(s') proportional to O(o | s', a) * SUM_s T(s, a, s') * b(s)
-```
+$$
+b'(s')
+\propto
+O(o \mid s',a)
+\sum_{s \in \mathcal{S}}
+T(s,a,s')\,b(s).
+$$
 
 Operationally in this codebase:
 
@@ -285,11 +306,15 @@ Operationally in this codebase:
 
 For unknown deck/rule models, estimate action value with Bayesian model averaging:
 
-```text
 Bayesian model averaging:
 
-Q_bma(a) = SUM_m w_m * SUM_d w_d * Q(a | d, m)
-```
+$$
+Q_{\text{BMA}}(a)
+=
+\sum_{m \in \mathcal{M}} w_m
+\sum_{d \in \mathcal{D}} w_d\,
+Q(a \mid d,m).
+$$
 
 This is the default "best estimate" value used for mean planning and long-run EV.
 
@@ -297,11 +322,14 @@ This is the default "best estimate" value used for mean planning and long-run EV
 
 To avoid fragile action selection under unknown rules, also compute:
 
-```text
 Robust lower envelope:
 
-Q_rob(a) = min_{m in U_m, d in U_d} Q(a | d, m)
-```
+$$
+Q_{\text{rob}}(a)
+=
+\min_{m \in U_m,\ d \in U_d}
+Q(a \mid d,m).
+$$
 
 where `U_m` and `U_d` are ambiguity sets built from:
 
@@ -320,15 +348,21 @@ This is directly motivated by robust dynamic programming results showing that ro
 
 For model ambiguity that is not naturally worst-case in a maximin sense, use minimax regret:
 
-```text
 Model-specific regret:
 
-Regret(a, m, d) = V*(m, d) - Q(a | m, d)
+$$
+\operatorname{Regret}(a,m,d)
+=
+V^*(m,d)-Q(a \mid m,d).
+$$
 
 Minimax regret:
 
-MR(a) = max_{m, d} Regret(a, m, d)
-```
+$$
+MR(a)
+=
+\max_{m,d}\operatorname{Regret}(a,m,d).
+$$
 
 Then use regret as a secondary discriminator among actions with similar conservative clear probability. This is especially useful when two actions have similar `Pclear_cons` but one becomes much worse if a partially modeled Joker behaves differently.
 
@@ -396,11 +430,14 @@ Plain Monte Carlo is weakest exactly where this planner most needs accuracy: sma
 
 Use a defensive mixture proposal:
 
-```text
 Mixture proposal:
 
-q = (1 - epsilon) * p + epsilon * q_tilt
-```
+$$
+q(x)
+=
+(1-\varepsilon)p(x)
++ \varepsilon q_{\text{tilt}}(x).
+$$
 
 where:
 
@@ -409,17 +446,29 @@ where:
 
 Estimator:
 
-```text
 Importance-sampling estimator:
 
-mu_hat = (1 / n) * SUM_i w_i * f(X_i)
-w_i    = p(X_i) / q(X_i)
-```
+$$
+\widehat{\mu}_{\text{IS}}
+=
+\frac{1}{n}\sum_{i=1}^{n} w_i f(X_i),
+\qquad
+w_i=\frac{p(X_i)}{q(X_i)}.
+$$
+
+Use importance sampling only when nominal `Pclear` is below a threshold like `0.25` or when the target is far above mean score.
+
+Effective sample-size diagnostic:
+
+$$
+ESS
+=
+\frac{\left(\sum_i w_i\right)^2}{\sum_i w_i^2}.
+$$
 
 Recommendations:
 
-- use importance sampling only when nominal `Pclear` is below a threshold like `0.25` or when the target is far above mean score,
-- log `ESS = (sum_i w_i)^2 / sum_i w_i^2`,
+- log `ESS`,
 - if `ESS / n` is too low, fall back to nominal shared-pool ranking for safety.
 
 ### 3.6 Conditioning / Rao-Blackwellization
@@ -440,11 +489,14 @@ Use cheap surrogates `h_j(X)` with known or exactly computed expectations.
 
 Regression control-variate estimator:
 
-```text
-Control-variate correction:
-
-mu_hat_cv = mu_hat - beta_hat^T * (h_bar - E[h])
-```
+$$
+\widehat{\mu}_{\text{CV}}
+=
+\widehat{\mu}
+-
+\widehat{\beta}^{\mathsf{T}}
+\left(\overline{h}-\mathbb{E}[h]\right).
+$$
 
 Choose controls such as:
 
@@ -529,20 +581,24 @@ Use at least:
 
 From Rockafellar and Uryasev:
 
-```text
 CVaR identity:
 
-CVaR_beta(x) = min_alpha F_beta(x, alpha)
-```
+$$
+\operatorname{CVaR}_{\beta}(X)
+=
+\min_{\alpha} F_{\beta}(X,\alpha).
+$$
 
 with
 
-```text
-Auxiliary objective:
-
-F_beta(x, alpha) =
-    alpha + (1 - beta)^(-1) * E[(loss(x, Y) - alpha)^+]
-```
+$$
+F_{\beta}(X,\alpha)
+=
+\alpha
++
+(1-\beta)^{-1}
+\mathbb{E}\left[(L(X,Y)-\alpha)^+\right].
+$$
 
 For this codebase, `CVaR` is best used as a lower-tail continuation measure, not as the primary objective. The primary objective remains clear probability.
 
@@ -552,10 +608,15 @@ Overkill is not always bad. It is bad only when conservative clear probability i
 
 Recommended definition:
 
-```text
-OverkillNorm =
-    clip( (E[score] - target_remaining) / max(target_remaining, 1), 0, 1 )
-```
+$$
+\operatorname{OverkillNorm}
+=
+\operatorname{clip}\left(
+\frac{\mathbb{E}[S]-r}{\max(r,1)},
+0,
+1
+\right).
+$$
 
 Apply a penalty only when:
 
@@ -566,9 +627,11 @@ Apply a penalty only when:
 
 Define:
 
-```text
-CardEfficiency = E[score] / max(cards_consumed, 1)
-```
+$$
+\operatorname{CardEfficiency}
+=
+\frac{\mathbb{E}[S]}{\max(c_{\text{used}},1)}.
+$$
 
 Use this as a tertiary ranking feature only after clear probability and tail risk.
 

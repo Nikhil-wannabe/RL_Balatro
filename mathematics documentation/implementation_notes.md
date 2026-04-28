@@ -2,6 +2,8 @@
 
 ## Runtime Architecture
 
+For the complete code-mapped equations behind the runtime, see [runtime_mathematical_spec.md](runtime_mathematical_spec.md). That file is the authoritative math index for scoring, exact search, Monte Carlo risk statistics, robust ranking, tactical mode selection, and shop/pack scoring.
+
 ### Lua bridge
 
 File:

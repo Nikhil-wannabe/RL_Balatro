@@ -68,7 +68,7 @@ Starting Balatro Agent Server
 
 ## 3. Install the Lua Mod
 
-Follow [mod_installation.md](/C:/Users/nkris/OneDrive/Documents/RL_Balatro/docs/mod_installation.md) to install `agent.lua` and `lovely.toml` with Lovely.
+Follow [mod_installation.md](mod_installation.md) to install `agent.lua` and `lovely.toml` with Lovely.
 
 If Balatro is already installed with an earlier copy of this mod, recopy both files before launching the game again:
 - `lua/agent.lua`
@@ -165,4 +165,4 @@ Additional timing knobs:
 4. Compare the chosen line against nearby candidates and their rollout confidence margins.
 5. Adjust heuristics or rollout budgets, then rerun.
 
-For a step-by-step install guide, see [mod_installation.md](/C:/Users/nkris/OneDrive/Documents/RL_Balatro/docs/mod_installation.md).
+For a step-by-step install guide, see [mod_installation.md](mod_installation.md).

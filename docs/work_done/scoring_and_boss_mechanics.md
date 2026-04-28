@@ -116,3 +116,4 @@ flowchart TD
 
 This page should be updated whenever new joker mechanics are added, especially retriggers and copy effects such as Blueprint or Brainstorm.
 
+For the full code-mapped formulas behind classification, debuffs, boss constraints, and scoring order, see [Runtime Mathematical Specification](../../mathematics%20documentation/runtime_mathematical_spec.md).

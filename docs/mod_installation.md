@@ -129,4 +129,4 @@ Check all of the following:
 - Actions feel too slow: lower `AGENT_SELECTING_HAND_TIME_BUDGET_MS` or use `run_agent_fast`.
 - Blind selection fails after the shop: make sure you copied the latest `agent.lua`; newer builds resolve blinds through `G.GAME.round_resets.blind_choices` instead of guessing blind keys.
 
-For the full runtime guide, see [running_the_agent.md](/C:/Users/nkris/OneDrive/Documents/RL_Balatro/docs/running_the_agent.md).
+For the full runtime guide, see [running_the_agent.md](running_the_agent.md).

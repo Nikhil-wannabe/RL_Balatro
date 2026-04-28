@@ -28,6 +28,7 @@ A deterministic Balatro autoplayer that combines:
 4. Inspect `logs/decision_trace.jsonl` after runs to tune the algorithm.
 
 Practical setup guides:
-- [Running the Agent](/C:/Users/nkris/OneDrive/Documents/RL_Balatro/docs/running_the_agent.md)
-- [Mod Installation](/C:/Users/nkris/OneDrive/Documents/RL_Balatro/docs/mod_installation.md)
-- [Work Done So Far](/C:/Users/nkris/OneDrive/Documents/RL_Balatro/docs/work_done/README.md)
+- [Running the Agent](docs/running_the_agent.md)
+- [Mod Installation](docs/mod_installation.md)
+- [Work Done So Far](docs/work_done/README.md)
+- [Runtime Mathematical Specification](<mathematics documentation/runtime_mathematical_spec.md>)
