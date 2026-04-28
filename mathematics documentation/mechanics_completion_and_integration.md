@@ -1,4 +1,4 @@
-# Mechanics Completion And Integration
+﻿# Mechanics Completion And Integration
 
 ## Executive Summary
 
@@ -101,78 +101,78 @@ New effects:
 
 The live mult bonus is:
 
-$$
+```math
 \Delta M_{\text{Bootstraps}}
 =
 m_{\text{step}}
 \left\lfloor
 \frac{\text{money}}{d_{\text{step}}}
 \right\rfloor.
-$$
+```
 
 With the shipped config:
 
-$$
+```math
 m_{\text{step}}=2,
 \qquad
 d_{\text{step}}=5.
-$$
+```
 
 so:
 
-$$
+```math
 \Delta M_{\text{Bootstraps}}
 =
 2\left\lfloor\frac{\text{money}}{5}\right\rfloor.
-$$
+```
 
 ### The Flint
 
 `The Flint` scales only the base hand layer, not every later additive or multiplicative effect:
 
-$$
+```math
 C_0' = 0.5 C_0,
 \qquad
 M_0' = 0.5 M_0.
-$$
+```
 
 Then the normal scoring pipeline continues:
 
-$$
+```math
 S
 =
 \left(C_0' + \Delta C_{\text{cards}} + \Delta C_{\text{jokers}}\right)
 \left(M_0' + \Delta M_{\text{cards}} + \Delta M_{\text{jokers}}\right)
 \prod_{\ell} X_{\ell}.
-$$
+```
 
 ### Bloodstone
 
 For deterministic planning, the expected xmult factor per Heart card is:
 
-$$
+```math
 \mathbb{E}[X_{\text{Bloodstone}}]
 =
 1+\frac{x_{\text{proc}}-1}{o}.
-$$
+```
 
 With:
 
-$$
+```math
 x_{\text{proc}} = 1.5,
 \qquad
 o = 2.
-$$
+```
 
 that becomes:
 
-$$
+```math
 \mathbb{E}[X_{\text{Bloodstone}}]
 =
 1+\frac{1.5-1}{2}
 =
 1.25.
-$$
+```
 
 This is not the exact distributional model, but it is a stable deterministic approximation that can be used in root ranking and exact/MC consistency checks.
 

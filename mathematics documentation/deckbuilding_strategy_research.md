@@ -139,7 +139,7 @@ The current model does not hard-commit to a single archetype. Instead it estimat
 
 Then each shop candidate is scored by:
 
-$$
+```math
 \text{item value} =
 \text{base value}
 + \text{edition bonus}
@@ -147,7 +147,7 @@ $$
 - \text{sticker penalty}
 - \text{cost penalty}
 + 4 \cdot \mathbb{E}_{a \sim p(a \mid s)}[\text{synergy}(a, \text{item})]
-$$
+```
 
 This is not a trained model yet, but it is already much more expressive than a static buy-list.
 

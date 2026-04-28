@@ -1,4 +1,4 @@
-# Brain & Decision Logic
+# Brain And Decision Logic
 
 The agent reasoning goes beyond immediate greedy scoring and uses a structured probabilistic brain.
 

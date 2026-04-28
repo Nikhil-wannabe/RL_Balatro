@@ -87,9 +87,9 @@ Let `s` be the latent full game state, `b(s)` the current belief over possible l
 
 The root objective should be:
 
-Choose action $a$ that maximizes the lexicographic objective:
+Choose action `a` that maximizes the lexicographic objective:
 
-$$
+```math
 a^* =
 \operatorname*{argmax}_{a \in \mathcal{A}(b)}
 \operatorname{Lex}\left(
@@ -100,7 +100,7 @@ EV_{\text{longrun}}(a),
 R_{\text{resource}}(a),
 \operatorname{TieBreak}(a)
 \right).
-$$
+```
 
 where:
 
@@ -113,9 +113,9 @@ where:
 
 This is intentionally not a single scalar utility at the top level. A scalar utility can still be used inside subroutines, but the final root ranking should be lexicographic or epsilon-lexicographic because the user preference is explicit:
 
-$$
+```math
 P(\text{clear}) \succ EV_{\text{longrun}} \succ R_{\text{resource}}.
-$$
+```
 
 ## Existing Repository Fit
 
@@ -163,20 +163,20 @@ If after discarding `k` cards we draw `k` cards without replacement from a remai
 
 Multivariate-hypergeometric draw law:
 
-$$
+```math
 \Pr(X=x)
 =
 \frac{\prod_{i=1}^{r} {K_i \choose x_i}}
 {{N \choose k}}.
-$$
+```
 
 subject to:
 
-$$
+```math
 \sum_{i=1}^{r} x_i = k,
 \qquad
 0 \le x_i \le K_i.
-$$
+```
 
 This is the multivariate hypergeometric law.
 
@@ -199,22 +199,22 @@ For known deck and fixed rule model:
 
 Finite-horizon blind-clear recursion:
 
-$$
+```math
 V(s,h,d,r)
 =
 \max_{a \in \mathcal{A}(s,h,d)}
 \sum_{o \in \Omega(a)}
 \Pr(o \mid s,a)\,
 V(T(s,a,o),h',d',r').
-$$
+```
 
 with terminal conditions:
 
-$$
+```math
 V(s,h,d,r \le 0)=1,
 \qquad
 V(s,0,d,r>0)=0.
-$$
+```
 
 This is exact finite-horizon dynamic programming on the current blind.
 
@@ -288,13 +288,13 @@ Given observation `o` after action `a`, update:
 
 Belief update:
 
-$$
+```math
 b'(s')
 \propto
 O(o \mid s',a)
 \sum_{s \in \mathcal{S}}
 T(s,a,s')\,b(s).
-$$
+```
 
 Operationally in this codebase:
 
@@ -308,13 +308,13 @@ For unknown deck/rule models, estimate action value with Bayesian model averagin
 
 Bayesian model averaging:
 
-$$
+```math
 Q_{\text{BMA}}(a)
 =
 \sum_{m \in \mathcal{M}} w_m
 \sum_{d \in \mathcal{D}} w_d\,
 Q(a \mid d,m).
-$$
+```
 
 This is the default "best estimate" value used for mean planning and long-run EV.
 
@@ -324,12 +324,12 @@ To avoid fragile action selection under unknown rules, also compute:
 
 Robust lower envelope:
 
-$$
+```math
 Q_{\text{rob}}(a)
 =
 \min_{m \in U_m,\ d \in U_d}
 Q(a \mid d,m).
-$$
+```
 
 where `U_m` and `U_d` are ambiguity sets built from:
 
@@ -350,19 +350,19 @@ For model ambiguity that is not naturally worst-case in a maximin sense, use min
 
 Model-specific regret:
 
-$$
+```math
 \operatorname{Regret}(a,m,d)
 =
 V^*(m,d)-Q(a \mid m,d).
-$$
+```
 
 Minimax regret:
 
-$$
+```math
 MR(a)
 =
 \max_{m,d}\operatorname{Regret}(a,m,d).
-$$
+```
 
 Then use regret as a secondary discriminator among actions with similar conservative clear probability. This is especially useful when two actions have similar `Pclear_cons` but one becomes much worse if a partially modeled Joker behaves differently.
 
@@ -432,12 +432,12 @@ Use a defensive mixture proposal:
 
 Mixture proposal:
 
-$$
+```math
 q(x)
 =
 (1-\varepsilon)p(x)
 + \varepsilon q_{\text{tilt}}(x).
-$$
+```
 
 where:
 
@@ -448,23 +448,23 @@ Estimator:
 
 Importance-sampling estimator:
 
-$$
+```math
 \widehat{\mu}_{\text{IS}}
 =
 \frac{1}{n}\sum_{i=1}^{n} w_i f(X_i),
 \qquad
 w_i=\frac{p(X_i)}{q(X_i)}.
-$$
+```
 
 Use importance sampling only when nominal `Pclear` is below a threshold like `0.25` or when the target is far above mean score.
 
 Effective sample-size diagnostic:
 
-$$
+```math
 ESS
 =
 \frac{\left(\sum_i w_i\right)^2}{\sum_i w_i^2}.
-$$
+```
 
 Recommendations:
 
@@ -489,14 +489,14 @@ Use cheap surrogates `h_j(X)` with known or exactly computed expectations.
 
 Regression control-variate estimator:
 
-$$
+```math
 \widehat{\mu}_{\text{CV}}
 =
 \widehat{\mu}
 -
 \widehat{\beta}^{\mathsf{T}}
 \left(\overline{h}-\mathbb{E}[h]\right).
-$$
+```
 
 Choose controls such as:
 
@@ -583,22 +583,22 @@ From Rockafellar and Uryasev:
 
 CVaR identity:
 
-$$
+```math
 \operatorname{CVaR}_{\beta}(X)
 =
 \min_{\alpha} F_{\beta}(X,\alpha).
-$$
+```
 
 with
 
-$$
+```math
 F_{\beta}(X,\alpha)
 =
 \alpha
 +
 (1-\beta)^{-1}
 \mathbb{E}\left[(L(X,Y)-\alpha)^+\right].
-$$
+```
 
 For this codebase, `CVaR` is best used as a lower-tail continuation measure, not as the primary objective. The primary objective remains clear probability.
 
@@ -608,7 +608,7 @@ Overkill is not always bad. It is bad only when conservative clear probability i
 
 Recommended definition:
 
-$$
+```math
 \operatorname{OverkillNorm}
 =
 \operatorname{clip}\left(
@@ -616,7 +616,7 @@ $$
 0,
 1
 \right).
-$$
+```
 
 Apply a penalty only when:
 
@@ -627,11 +627,11 @@ Apply a penalty only when:
 
 Define:
 
-$$
+```math
 \operatorname{CardEfficiency}
 =
 \frac{\mathbb{E}[S]}{\max(c_{\text{used}},1)}.
-$$
+```
 
 Use this as a tertiary ranking feature only after clear probability and tail risk.
 
@@ -820,7 +820,7 @@ flowchart TD
 
 ## 10. Implemented Code Touchpoints
 
-### 10.1 `python/brain.py`
+### 10.1 Python Brain Module
 
 The runtime now centers the brain layer around risk-aware ranking and tactical thresholds. The core shape is:
 
@@ -856,7 +856,7 @@ class Brain:
 
 Keep `ActionFeatures` only if needed for backward compatibility, but stop using it as the primary decision object.
 
-### 10.2 `python/monte_carlo.py`
+### 10.2 Python Monte Carlo Module
 
 The runtime now adds deterministic shared-pool structures like:
 
@@ -890,7 +890,7 @@ class MonteCarloSimulator:
     def refine_candidates(self, ...): ...
 ```
 
-### 10.3 `python/planner.py`
+### 10.3 Python Planner Module
 
 The runtime now follows this decision sequence inside `plan_selecting_hand`:
 
@@ -909,7 +909,7 @@ ranked = brain.rank_candidates(state, survivors, stats, belief)
 return ranked[0].to_action_response()
 ```
 
-### 10.4 `python/config.py`
+### 10.4 Python Config Module
 
 The runtime now exposes brain-layer settings such as:
 

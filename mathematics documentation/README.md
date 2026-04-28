@@ -17,6 +17,7 @@ The guiding principle is practical control under a short inference budget:
 - conservative fallback logic when the expensive model would exceed the live game timeout.
 
 Rendering convention:
-- display equations use double-dollar display blocks,
-- inline equations use single-dollar inline math,
+- display equations use fenced `math` blocks,
+- headings, list labels, and prose use plain text or code spans for symbols,
+- formulas are kept inside fenced `math` blocks whenever possible,
 - legacy parenthesis/bracket math delimiters are avoided so GitHub renders the documents consistently.

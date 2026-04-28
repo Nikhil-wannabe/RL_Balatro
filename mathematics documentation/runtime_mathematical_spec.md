@@ -1,8 +1,8 @@
-# Runtime Mathematical Specification
+﻿# Runtime Mathematical Specification
 
 This document is the code-mapped mathematical specification for the current runtime. It is intentionally more detailed than the research notes: every major formula below maps to a concrete module in `python/` or `scripts/`.
 
-All display equations use GitHub-safe double-dollar display blocks. Inline equations use single-dollar inline math.
+All display equations use GitHub-safe fenced `math` blocks. Headings, list labels, and prose use plain text or code spans for symbols so math never has to render inside headings.
 
 ## 1. Code Map
 
@@ -43,41 +43,41 @@ flowchart TD
 
 The normalized runtime state is:
 
-$$
+```math
 s
 =
 (
 \mu,\beta,\epsilon,H,J,D,R,C,L,Q,P
 )
-$$
+```
 
 where:
 
-- $\mu$ is metadata: seed, ante, round, phase, stake, deck identity, and pack/blind context.
-- $\beta$ is blind state: name, target score, current score, boss modifier, and boss flag.
-- $\epsilon$ is economy: money, hands left, discards left, hand size, reroll cost, interest, and slots.
-- $H$ is current hand.
-- $J$ is joker set.
-- $D$ is the visible draw pile if known.
-- $R$ is discard pile.
-- $C$ is consumables.
-- $L$ is hand-level table.
-- $Q$ is shop inventory.
-- $P$ is pack inventory.
+- `mu` is metadata: seed, ante, round, phase, stake, deck identity, and pack/blind context.
+- `beta` is blind state: name, target score, current score, boss modifier, and boss flag.
+- `epsilon` is economy: money, hands left, discards left, hand size, reroll cost, interest, and slots.
+- `H` is current hand.
+- `J` is joker set.
+- `D` is the visible draw pile if known.
+- `R` is discard pile.
+- `C` is consumables.
+- `L` is hand-level table.
+- `Q` is shop inventory.
+- `P` is pack inventory.
 
 The immediate remaining score is:
 
-$$
+```math
 r(s)=\beta_{\text{target}}-\beta_{\text{current}}.
-$$
+```
 
 The current number of available hands and discards are:
 
-$$
+```math
 h(s)=\epsilon_{\text{hands}},
 \qquad
 d(s)=\epsilon_{\text{discards}}.
-$$
+```
 
 ## 3. Action Space
 
@@ -85,18 +85,18 @@ For selecting-hand decisions, the Python planner evaluates play and discard acti
 
 The play action set is:
 
-$$
+```math
 \mathcal{A}_{\text{play}}(s)
 =
 \left\{
 A\subseteq H:
 1\le |A|\le \min(5,|H|)
 \right\}.
-$$
+```
 
 The discard action set is:
 
-$$
+```math
 \mathcal{A}_{\text{discard}}(s)
 =
 \left\{
@@ -105,17 +105,17 @@ B\subseteq H:
 \right\}
 \quad
 \text{if } d(s)>0.
-$$
+```
 
 The root candidate set is:
 
-$$
+```math
 \mathcal{A}(s)
 =
 \mathcal{A}_{\text{play}}(s)
 \cup
 \mathcal{A}_{\text{discard}}(s).
-$$
+```
 
 ```mermaid
 flowchart LR
@@ -134,31 +134,31 @@ flowchart LR
 
 `boss_profile_from_state` maps the blind name to a profile:
 
-$$
+```math
 \pi_b(s)
 =
 (
 u,\phi,\psi,\eta,\lambda,\omega,\tau,g_C,g_M,\rho,\kappa,\gamma
 )
-$$
+```
 
 where:
 
-- $u$ is the debuffed suit, if any.
-- $\phi=1$ means face cards are debuffed.
-- $\psi=1$ means the play must use five cards.
-- $\eta=1$ means repeated hand types are illegal.
-- $\lambda=1$ means the round is locked to the first hand type.
-- $\omega=1$ means money is set to zero for the most-played hand.
-- $\tau$ is money lost per played card.
-- $g_C,g_M$ scale base chips and base mult.
-- $\rho$ is future penalty.
-- $\kappa$ is joker uncertainty penalty.
-- $\gamma$ is immediate clear-pressure bonus.
+- `u` is the debuffed suit, if any.
+- `phi = 1` means face cards are debuffed.
+- `psi = 1` means the play must use five cards.
+- `eta = 1` means repeated hand types are illegal.
+- `lambda = 1` means the round is locked to the first hand type.
+- `omega = 1` means money is set to zero for the most-played hand.
+- `tau` is money lost per played card.
+- `g_C` and `g_M` scale base chips and base mult.
+- `rho` is future penalty.
+- `kappa` is joker uncertainty penalty.
+- `gamma` is immediate clear-pressure bonus.
 
 Illegal play indicator:
 
-$$
+```math
 I_{\text{illegal}}(a,s)
 =
 \mathbf{1}[\psi=1\land |a|<5]
@@ -170,19 +170,19 @@ I_{\text{illegal}}(a,s)
 \land T_{\text{locked}}(s)\ne\varnothing
 \land T(a)\ne T_{\text{locked}}(s)
 ].
-$$
+```
 
 Base-score scaling:
 
-$$
+```math
 C_0'=g_C C_0,
 \qquad
 M_0'=g_M M_0.
-$$
+```
 
 Post-play money is:
 
-$$
+```math
 m'
 =
 \max\left(
@@ -191,17 +191,17 @@ m'
 \left(m+\Delta m_{\text{joker}}\right)
 -\tau |a|
 \right).
-$$
+```
 
 Future-play preservation receives a boss penalty:
 
-$$
+```math
 F_{\text{future}}
 =
 \max\left(0,S(a)-\frac{r}{\max(1,h)}\right)
 -
 \rho\frac{r}{\max(1,h)}.
-$$
+```
 
 ```mermaid
 flowchart TD
@@ -220,15 +220,15 @@ flowchart TD
 
 Only active jokers enter classification:
 
-$$
+```math
 J^+
 =
 \{j\in J:\operatorname{debuffed}(j)=0\}.
-$$
+```
 
 The hand priority order is:
 
-$$
+```math
 \mathcal{T}
 =
 [
@@ -245,37 +245,37 @@ $$
 \text{Pair},
 \text{High Card}
 ].
-$$
+```
 
-For played cards $A$, define the matching subsets for hand type $t$:
+For played cards `A`, define the matching subsets for hand type `t`:
 
-$$
+```math
 \mathcal{B}_t(A,J^+)
 =
 \{B\subseteq A:1\le |B|\le 5,\ M_t(B,J^+)=1\}.
-$$
+```
 
 The selected hand type is the first matching type in priority order:
 
-$$
+```math
 T(A,J^+)
 =
 \min_{\mathcal{T}}
 \{t:\mathcal{B}_t(A,J^+)\ne\varnothing\}.
-$$
+```
 
 The selected scoring subset is the best subset under the code's deterministic subset key:
 
-$$
+```math
 \widehat{B}
 =
 \operatorname*{argmax}_{B\in\mathcal{B}_{T(A,J^+)}}
 K_{\text{subset}}(B).
-$$
+```
 
 The subset key is:
 
-$$
+```math
 K_{\text{subset}}(B)
 =
 \left(
@@ -284,18 +284,18 @@ K_{\text{subset}}(B)
 \operatorname{sort}_{\downarrow}\{r(c):c\in B\},
 \operatorname{sort}\{\operatorname{id}(c):c\in B\}
 \right).
-$$
+```
 
 `Splash` replaces the scoring subset with all played cards:
 
-$$
+```math
 B_{\text{score}}
 =
 \begin{cases}
 A, & \text{if Splash}\in J^+,\\
 \widehat{B}, & \text{otherwise}.
 \end{cases}
-$$
+```
 
 ```mermaid
 flowchart TD
@@ -312,7 +312,7 @@ flowchart TD
 
 Four Fingers lowers flush and straight requirements:
 
-$$
+```math
 \rho_F(J^+)
 =
 \begin{cases}
@@ -323,11 +323,11 @@ $$
 \rho_S(J^+)
 =
 \rho_F(J^+).
-$$
+```
 
 Suit matching is:
 
-$$
+```math
 \operatorname{matchSuit}(c,u,J^+)
 =
 \begin{cases}
@@ -336,11 +336,11 @@ $$
 \mathbf{1}[\operatorname{color}(c)=\operatorname{color}(u)], & \text{if Smeared Joker}\in J^+,\\
 \mathbf{1}[\operatorname{suit}(c)=u], & \text{otherwise}.
 \end{cases}
-$$
+```
 
 Flush predicate:
 
-$$
+```math
 \operatorname{Flush}(B,J^+)
 =
 \mathbf{1}\left[
@@ -349,11 +349,11 @@ $$
 \exists u\in\{\text{Spades},\text{Hearts},\text{Clubs},\text{Diamonds}\}:
 \forall c\in B,\operatorname{matchSuit}(c,u,J^+)=1
 \right].
-$$
+```
 
 Straight predicate:
 
-$$
+```math
 \operatorname{Straight}(B,J^+)
 =
 \mathbf{1}\left[
@@ -365,11 +365,11 @@ $$
 \land
 \operatorname{runOK}(B,J^+)
 \right].
-$$
+```
 
 `Shortcut` allows one rank gap of size two:
 
-$$
+```math
 \operatorname{runOK}(v,J^+)
 =
 \mathbf{1}
@@ -378,7 +378,7 @@ $$
 \land
 \forall i,\ v_i-v_{i+1}\in\{1,2\}
 \right],
-$$
+```
 
 with an alternate Ace-low representation checked when Ace is present.
 
@@ -388,7 +388,7 @@ Classification uses all played cards, but score contributions exclude debuffed s
 
 The card debuff predicate is:
 
-$$
+```math
 \delta(c;s,J^+)
 =
 \mathbf{1}[c_{\text{debuffed}}]
@@ -396,11 +396,11 @@ $$
 \mathbf{1}[\phi=1\land \operatorname{face}(c,J^+)]
 \lor
 \mathbf{1}[u\ne\varnothing\land \operatorname{matchSuit}(c,u,J^+)].
-$$
+```
 
 The active scoring and held sets are:
 
-$$
+```math
 B_{\text{active}}
 =
 \{c\in B_{\text{score}}:\delta(c;s,J^+)=0\},
@@ -408,42 +408,42 @@ B_{\text{active}}
 H_{\text{held}}^+
 =
 \{c\in H\setminus A:\delta(c;s,J^+)=0\}.
-$$
+```
 
 This is the critical invariant fixed in the audit:
 
-$$
+```math
 \text{Debuffed cards may define }T(A,J^+),
 \quad
 \text{but they cannot add chips, mult, xmult, held effects, or money effects.}
-$$
+```
 
 ## 8. Scoring Pipeline
 
 Let the hand-level table supply base values:
 
-$$
+```math
 (C_0,M_0)
 =
 \begin{cases}
 (L_T^{\text{chips}},L_T^{\text{mult}}), & T\in L,\\
 (C_T^{\text{default}},M_T^{\text{default}}), & \text{otherwise}.
 \end{cases}
-$$
+```
 
 After boss scaling:
 
-$$
+```math
 C\leftarrow g_C C_0,
 \qquad
 M\leftarrow g_M M_0,
 \qquad
 X\leftarrow 1.
-$$
+```
 
 Card effects update:
 
-$$
+```math
 C
 \leftarrow
 C+\sum_{c\in B_{\text{active}}}
@@ -453,9 +453,9 @@ C+\sum_{c\in B_{\text{active}}}
 +\operatorname{cardChipJokers}(c,J^+)
 +\operatorname{editionChips}(c)
 \right).
-$$
+```
 
-$$
+```math
 M
 \leftarrow
 M+\sum_{c\in B_{\text{active}}}
@@ -465,9 +465,9 @@ M+\sum_{c\in B_{\text{active}}}
 +\operatorname{suitMultJokers}(c,J^+)
 +\operatorname{editionMult}(c)
 \right).
-$$
+```
 
-$$
+```math
 X
 \leftarrow
 X
@@ -477,25 +477,25 @@ X
 \operatorname{heldX}(c)
 \prod_{j\in J^+}
 \operatorname{jokerX}(j,s,A,H_{\text{held}}^+).
-$$
+```
 
 Joker additive chip/mult effects are then applied:
 
-$$
+```math
 C\leftarrow C+\Delta C_J(s,A,H,J^+),
 \qquad
 M\leftarrow M+\Delta M_J(s,A,H,J^+).
-$$
+```
 
 The final score is:
 
-$$
+```math
 S(a,s)
 =
 \operatorname{round}\left(
 \max(0,C M X)
 \right).
-$$
+```
 
 ```mermaid
 flowchart TD
@@ -513,7 +513,7 @@ flowchart TD
 
 Bootstraps:
 
-$$
+```math
 \Delta M_{\text{Bootstraps}}
 =
 m_{\text{step}}
@@ -522,29 +522,29 @@ m_{\text{step}}
 \right\rfloor,
 \qquad
 m_{\text{step}}=2,\quad d_{\text{step}}=5.
-$$
+```
 
 Bloodstone expected deterministic xmult per active Heart scoring card:
 
-$$
+```math
 X_{\text{Bloodstone, per Heart}}
 =
 1+\frac{x_{\text{proc}}-1}{o},
 \qquad
 x_{\text{proc}}=1.5,\quad o=2.
-$$
+```
 
-With $n_H$ active Heart scoring cards:
+With `n_H` active Heart scoring cards:
 
-$$
+```math
 X_{\text{Bloodstone}}
 =
 \left(1+\frac{x_{\text{proc}}-1}{o}\right)^{n_H}.
-$$
+```
 
 Baron:
 
-$$
+```math
 X_{\text{Baron}}
 =
 x_{\text{king}}^{n_K},
@@ -552,103 +552,103 @@ x_{\text{king}}^{n_K},
 n_K
 =
 |\{c\in H_{\text{held}}^+:r(c)=\text{King}\}|.
-$$
+```
 
 Driver's License:
 
-$$
+```math
 X_{\text{Driver}}
 =
 \begin{cases}
 x_{\text{driver}}, & N_{\text{modified}}(s)\ge 16,\\
 1, & \text{otherwise}.
 \end{cases}
-$$
+```
 
 Rough Gem money estimate:
 
-$$
+```math
 \Delta m_{\text{RoughGem}}
 =
 g_{\text{diamond}}
 \left|
 \{c\in B_{\text{active}}:\operatorname{matchSuit}(c,\text{Diamonds},J^+)=1\}
 \right|.
-$$
+```
 
 ## 10. Exact Discard Solver
 
-For discard set $B$, the post-discard base hand is:
+For discard set `B`, the post-discard base hand is:
 
-$$
+```math
 H_B=H\setminus B,
 \qquad
 k=|B|.
-$$
+```
 
 Exact enumeration is allowed when:
 
-$$
+```math
 \binom{|D|}{k}
 \le
 N_{\text{cap}},
 \qquad
 N_{\text{cap}}=\texttt{EXACT\_DRAW\_ENUM\_CAP}.
-$$
+```
 
 For raw exact combinations:
 
-$$
+```math
 \Omega_k(D)
 =
 \{X\subseteq D:|X|=k\}.
-$$
+```
 
-The best score after a draw $X$ is:
+The best score after a draw `X` is:
 
-$$
+```math
 Y(X)
 =
 \max_{A\in\mathcal{A}_{\text{play}}(H_B\cup X)}
 S(A,H_B\cup X,s).
-$$
+```
 
 Raw exact statistics use uniform combination weights:
 
-$$
+```math
 \widehat{\mu}_{\text{raw}}
 =
 \frac{1}{|\Omega_k(D)|}
 \sum_{X\in\Omega_k(D)}Y(X).
-$$
+```
 
-When equivalent cards can be aggregated into categories $1,\dots,q$, with category totals $N_i$ and draw vector $x_i$, the probability is:
+When equivalent cards can be aggregated into categories `1` through `q`, with category totals `N_i` and draw vector `x_i`, the probability is:
 
-$$
+```math
 \Pr(X=x)
 =
 \frac{\prod_{i=1}^{q}\binom{N_i}{x_i}}
 {\binom{\sum_i N_i}{k}},
-$$
+```
 
 subject to:
 
-$$
+```math
 \sum_i x_i=k,
 \qquad
 0\le x_i\le N_i.
-$$
+```
 
 The category-aggregated exact mean is:
 
-$$
+```math
 \widehat{\mu}_{\text{cat}}
 =
 \sum_x
 Y(x)
 \frac{\prod_i\binom{N_i}{x_i}}
 {\binom{\sum_i N_i}{k}}.
-$$
+```
 
 ```mermaid
 flowchart TD
@@ -668,7 +668,7 @@ flowchart TD
 
 The optimistic card value is:
 
-$$
+```math
 v_{\max}
 =
 \max_{c\in K\cup D}
@@ -678,53 +678,53 @@ v_{\max}
 +12\mathbf{1}[\operatorname{enhancement}(c)=\text{Mult}]
 +20\mathbf{1}[\operatorname{enhancement}(c)=\text{Glass}]
 \right).
-$$
+```
 
 The optimistic round upper bound is:
 
-$$
+```math
 U(K)
 =
 \left(100+5v_{\max}\right)
 \left(8\cdot 1.5^{\min(3,n_{\text{Steel}})}\right)
 \max(1,h).
-$$
+```
 
 Sound prune:
 
-$$
+```math
 U(K)<r(s)
 \quad\Rightarrow\quad
 \text{discard branch cannot clear the round under this bound.}
-$$
+```
 
 The heuristic discard candidate priority is:
 
-$$
+```math
 P_{\text{discard}}(B)
 =
 \sum_{c\in B}\operatorname{keep}(c)
 +P_{\text{flushBreak}}(B)
 +P_{\text{straightBreak}}(B)
 +P_{\text{size}}(B).
-$$
+```
 
-Cards with lower $P_{\text{discard}}$ are evaluated earlier because the code sorts ascending.
+Cards with lower discard priority are evaluated earlier because the code sorts ascending.
 
 ## 12. Monte Carlo Sampling
 
-The nominal ordered draw law for $x=(x_1,\dots,x_k)$ from a deck of size $N$ is:
+The nominal ordered draw law for draw sequence `x = (x_1, ..., x_k)` from a deck of size `N` is:
 
-$$
+```math
 p(x)
 =
 \prod_{t=0}^{k-1}
 \frac{1}{N-t}.
-$$
+```
 
-The tilted one-step weight for card $c$ is:
+The tilted one-step weight for card `c` is:
 
-$$
+```math
 a(c)
 =
 1
@@ -735,43 +735,43 @@ a(c)
 +0.50\,I_{\text{enhanced}}(c)
 +0.40\,I_{\text{edition}}(c)
 +0.30\,I_{\text{seal}}(c).
-$$
+```
 
 The biased one-step law is:
 
-$$
+```math
 b_t(c)
 =
 \frac{a(c)}
 {\sum_{z\in D_t}a(z)}.
-$$
+```
 
 The defensive mixture proposal is:
 
-$$
+```math
 q_t(c)
 =
 \frac{1-\varepsilon}{|D_t|}
 +\varepsilon b_t(c),
 \qquad
 \varepsilon=\texttt{MC\_IS\_MIXTURE\_EPSILON}.
-$$
+```
 
 The proposal probability for the sequence is:
 
-$$
+```math
 q(x)
 =
 \prod_{t=0}^{k-1}q_t(x_{t+1}).
-$$
+```
 
 The importance weight is:
 
-$$
+```math
 w(x)
 =
 \frac{p(x)}{q(x)}.
-$$
+```
 
 ```mermaid
 flowchart TD
@@ -786,33 +786,33 @@ flowchart TD
 
 ## 13. Weighted Risk Statistics
 
-Given sampled scores $y_i$ and weights $w_i$, the weighted mean is:
+Given sampled scores `y_i` and weights `w_i`, the weighted mean is:
 
-$$
+```math
 \bar{y}_w
 =
 \frac{\sum_i w_i y_i}{\sum_i w_i}.
-$$
+```
 
 Weighted variance:
 
-$$
+```math
 \sigma_w^2
 =
 \frac{\sum_i w_i(y_i-\bar{y}_w)^2}{\sum_i w_i}.
-$$
+```
 
 Effective sample size:
 
-$$
+```math
 \operatorname{ESS}
 =
 \frac{\left(\sum_i w_i\right)^2}{\sum_i w_i^2}.
-$$
+```
 
 Standard error and confidence margin:
 
-$$
+```math
 \operatorname{SE}
 =
 \frac{\sigma_w}{\sqrt{\max(1,\operatorname{ESS})}},
@@ -820,19 +820,19 @@ $$
 \operatorname{margin}
 =
 c_{\text{MC}}\cdot 1.96\cdot \operatorname{SE}.
-$$
+```
 
 Clear probability:
 
-$$
+```math
 \widehat{p}_{\text{clear}}
 =
 \frac{\sum_i w_i\mathbf{1}[y_i\ge r]}{\sum_i w_i}.
-$$
+```
 
 Wilson lower confidence bound:
 
-$$
+```math
 \operatorname{LCB}(p,n)
 =
 \frac{
@@ -841,11 +841,11 @@ p+\frac{z^2}{2n}
 }{
 1+\frac{z^2}{n}
 }.
-$$
+```
 
 Weighted lower quantile:
 
-$$
+```math
 Q_\alpha
 =
 \inf\left\{y:
@@ -853,11 +853,11 @@ Q_\alpha
 \ge
 \alpha\sum_i w_i
 \right\}.
-$$
+```
 
 CVaR-style tail loss:
 
-$$
+```math
 L_i
 =
 \max(0,r-y_i),
@@ -866,11 +866,11 @@ L_i
 =
 \frac{1}{\alpha\sum_iw_i}
 \int_{\text{largest }\alpha\text{ weighted mass}} L\,dW.
-$$
+```
 
 Expected and risk-adjusted improvement:
 
-$$
+```math
 \Delta_{\text{mean}}
 =
 \max(0,\bar{y}_w-y_{\text{best}}),
@@ -878,7 +878,7 @@ $$
 \Delta_{\text{risk}}
 =
 \max(0,\bar{y}_w-\operatorname{margin}-y_{\text{best}}).
-$$
+```
 
 ## 14. Control Variate
 
@@ -886,29 +886,29 @@ The runtime proxy is the count of helpful draw cards. A card is helpful when it 
 
 The proxy expectation is:
 
-$$
+```math
 \mathbb{E}[H]
 =
 k
 \frac{N_{\text{helpful}}}{N}.
-$$
+```
 
 The weighted control coefficient is:
 
-$$
+```math
 \widehat{\beta}
 =
 \frac{\operatorname{Cov}_w(Y,H)}
 {\operatorname{Var}_w(H)}.
-$$
+```
 
 Adjusted scores are:
 
-$$
+```math
 Y_i'
 =
 Y_i-\widehat{\beta}\left(H_i-\mathbb{E}[H]\right).
-$$
+```
 
 These adjusted scores are passed into the same weighted statistics pipeline.
 
@@ -916,39 +916,39 @@ These adjusted scores are passed into the same weighted statistics pipeline.
 
 If the draw pile is visible:
 
-$$
+```math
 \mathcal{D}_{\text{belief}}=D,
 \qquad
 w_D=1.
-$$
+```
 
 If the draw pile is absent, the deck is inferred as:
 
-$$
+```math
 \mathcal{D}_{\text{belief}}
 =
 \mathcal{D}_{52}
 \setminus
 \operatorname{seen}(H,R,D).
-$$
+```
 
 For unresolved active jokers:
 
-$$
+```math
 u_J=|\{j\in J:j_{\text{debuffed}}=0\}|.
-$$
+```
 
-If $u_J=0$, the only model is nominal:
+If `u_J = 0`, the only model is nominal:
 
-$$
+```math
 \mathcal{M}
 =
 \{(\text{nominal},1,1,\kappa)\}.
-$$
+```
 
-If $u_J>0$, the posterior contains:
+If `u_J > 0`, the posterior contains:
 
-$$
+```math
 \mathcal{M}
 =
 \{
@@ -956,31 +956,31 @@ $$
 (\text{nominal},0.55,1,p_N),
 (\text{upper},0.20,1,0)
 \}.
-$$
+```
 
 with penalties:
 
-$$
+```math
 p_L
 =
 \min(0.50,\min(0.35,0.035u_J)+\kappa),
-$$
+```
 
-$$
+```math
 p_N
 =
 \min(0.30,\min(0.18,0.015u_J)+0.6\kappa).
-$$
+```
 
 The diagnostic entropy stored by the code is:
 
-$$
+```math
 \mathcal{H}
 =
 -\sum_{w\in W}w\log w,
 \qquad
 W=\{w_{\text{deck particles}}\}\cup\{w_{\text{rule models}}\}.
-$$
+```
 
 ```mermaid
 flowchart TD
@@ -996,9 +996,9 @@ flowchart TD
 
 ## 16. Robust Aggregation And Minimax Regret
 
-For base clear probability $p$ and base score $y$, each rule model $m$ produces:
+For base clear probability `p` and base score `y`, each rule model `m` produces:
 
-$$
+```math
 p_m
 =
 \operatorname{clip}_{[0,1]}(p-\operatorname{penalty}_m),
@@ -1006,19 +1006,19 @@ p_m
 y_m
 =
 \max(0,y\cdot \operatorname{scale}_m).
-$$
+```
 
 Model value:
 
-$$
+```math
 V_m(a)
 =
 1000p_m+y_m.
-$$
+```
 
 Bayesian-model-averaged clear probability and score:
 
-$$
+```math
 p_{\text{BMA}}(a)
 =
 \sum_m w_m p_m,
@@ -1026,19 +1026,19 @@ p_{\text{BMA}}(a)
 y_{\text{BMA}}(a)
 =
 \sum_m w_m y_m.
-$$
+```
 
 Conservative lower envelope:
 
-$$
+```math
 p_{\text{cons}}(a)=\min_m p_m,
 \qquad
 y_{\text{cons}}(a)=\min_m y_m.
-$$
+```
 
 The planner computes regret with a richer surrogate:
 
-$$
+```math
 U_m(a)
 =
 p_m(a)\left(1000+160\gamma\right)
@@ -1046,11 +1046,11 @@ p_m(a)\left(1000+160\gamma\right)
 +R_{\text{resource}}(a)
 +I_{\text{immediate}}(a)
 -0.05\,\operatorname{OverkillNorm}(a).
-$$
+```
 
 where:
 
-$$
+```math
 R_{\text{resource}}(a)
 =
 \frac{h_a+0.5d_a}{10},
@@ -1061,11 +1061,11 @@ R_{\text{resource}}(a)
 \left(
 \frac{\max(0,y(a)-r)}{\max(1,r)}
 \right).
-$$
+```
 
 Minimax regret:
 
-$$
+```math
 \operatorname{Regret}(a)
 =
 \max_m
@@ -1073,29 +1073,29 @@ $$
 \max_{a'\in\mathcal{A}}U_m(a')
 -U_m(a)
 \right).
-$$
+```
 
 ## 17. Play Entry Features
 
-For a play action $a$ with exact score $S(a,s)$:
+For a play action `a` with exact score `S(a, s)`:
 
-$$
+```math
 I_{\text{lethal}}(a)
 =
 \mathbf{1}[S(a,s)\ge r(s)].
-$$
+```
 
 Remaining target and hands after action:
 
-$$
+```math
 r_a=\max(0,r-S(a,s)),
 \qquad
 h_a=\max(0,h-1).
-$$
+```
 
 The heuristic clear probability used for nonlethal plays is:
 
-$$
+```math
 \widehat{p}_{\text{heur}}(y,r,h)
 =
 \begin{cases}
@@ -1106,19 +1106,19 @@ $$
 0.50, & yh\ge 0.8r,\\
 0.10, & \text{otherwise}.
 \end{cases}
-$$
+```
 
 For nonlethal plays:
 
-$$
+```math
 p_{\text{lcb}}
 =
 \max(0,\widehat{p}_{\text{heur}}-0.10).
-$$
+```
 
 The play feature vector contains:
 
-$$
+```math
 f_{\text{play}}
 =
 (
@@ -1134,13 +1134,13 @@ F_{\text{future}},
 \max(0,S-r),
 \max(0,r-S)
 ).
-$$
+```
 
 ## 18. Tactical Mode
 
 The survival threshold is:
 
-$$
+```math
 \Gamma
 =
 \min(
@@ -1150,19 +1150,19 @@ $$
 +\Gamma_{\text{stake}}\mathbf{1}[\text{stake}\ge 5]
 +0.01\mathbf{1}[h\le 2]
 ).
-$$
+```
 
 The scale and panic thresholds are:
 
-$$
+```math
 \Gamma_{\text{scale}}=\min(0.995,\Gamma+0.02),
 \qquad
 \Gamma_{\text{panic}}=\max(0.35,\Gamma-0.40).
-$$
+```
 
 Mode selection:
 
-$$
+```math
 \operatorname{mode}(s)
 =
 \begin{cases}
@@ -1172,7 +1172,7 @@ $$
 \text{SAFE\_CLEAR}, & p_{\text{cons}}\ge\Gamma,\\
 \text{DESPERATION}, & \text{otherwise}.
 \end{cases}
-$$
+```
 
 ```mermaid
 flowchart TD
@@ -1191,7 +1191,7 @@ flowchart TD
 
 The scalar utility is retained for diagnostics:
 
-$$
+```math
 U_{\text{scalar}}
 =
 1.15w_s p_{\text{lcb}}
@@ -1204,11 +1204,11 @@ U_{\text{scalar}}
 +5Q_{\text{discard}}
 -0.6L_{\text{CVaR}}
 -4\operatorname{Regret}.
-$$
+```
 
 The actual root ordering is lexicographic. Let:
 
-$$
+```math
 R_{\text{cards}}
 =
 h_a+0.6d_a+0.05m_a,
@@ -1216,11 +1216,11 @@ h_a+0.6d_a+0.05m_a,
 E_{\text{card}}
 =
 \frac{y}{\max(1,|a|)}.
-$$
+```
 
 The rank tuple is:
 
-$$
+```math
 \operatorname{Rank}(a)
 =
 \operatorname{Lex}
@@ -1241,24 +1241,24 @@ I_{\text{immediate}},
 -|a|,
 \operatorname{ids}(a)
 \right).
-$$
+```
 
 `brain.py` sorts these tuples descending after rounding numeric components to eight decimals.
 
 ## 20. Strategy Posterior
 
-The strategy model produces archetype scores $z_a$ and posterior probabilities:
+The strategy model produces archetype scores `z_a` and posterior probabilities:
 
-$$
+```math
 \Pr(a\mid s)
 =
 \frac{\exp(z_a-z_{\max})}
 {\sum_b\exp(z_b-z_{\max})}.
-$$
+```
 
 Core deck metrics are:
 
-$$
+```math
 \operatorname{maxSuitShare}
 =
 \frac{\max_u n_u}{N},
@@ -1266,9 +1266,9 @@ $$
 \operatorname{faceRatio}
 =
 \frac{n_{\text{face}}}{N},
-$$
+```
 
-$$
+```math
 \operatorname{rankDup}
 =
 \frac{\sum_r\max(0,n_r-1)}{N},
@@ -1276,20 +1276,20 @@ $$
 \operatorname{exactDup}
 =
 \frac{\sum_g\max(0,n_g-1)}{N}.
-$$
+```
 
 Held-in-hand support:
 
-$$
+```math
 \operatorname{heldSupport}
 =
 12\operatorname{steelRatio}
 +8\operatorname{blueSealRatio}.
-$$
+```
 
 The posterior is an additive evidence model:
 
-$$
+```math
 z_a
 =
 z_a^{\text{stake}}
@@ -1300,7 +1300,7 @@ z_a^{\text{stake}}
 +z_a^{\text{boss}}
 +z_a^{\text{jokers}}
 +z_a^{\text{consumables}}.
-$$
+```
 
 ```mermaid
 flowchart TD
@@ -1318,25 +1318,25 @@ flowchart TD
 
 The run planner chooses a target hand, accepted backups, role scores, role targets, deficits, hard needs, economy floor, reroll aggression, and pack preferences.
 
-For each role $r$:
+For each role `r`:
 
-$$
+```math
 d_r
 =
 \max(0,T_r-R_r).
-$$
+```
 
 Hard needs are:
 
-$$
+```math
 \mathcal{N}_{\text{hard}}
 =
 \{r:d_r\ge 0.55\}.
-$$
+```
 
 Conversion readiness:
 
-$$
+```math
 I_{\text{conversion}}
 =
 \mathbf{1}
@@ -1347,11 +1347,11 @@ R_{\text{mult}}\ge0.85T_{\text{mult}}
 \land
 (m\ge25\lor I_{\text{noInterest}}\lor I_{\text{spendAggressively}})
 \right].
-$$
+```
 
 Reroll aggression is:
 
-$$
+```math
 A_{\text{reroll}}
 =
 \operatorname{clip}_{[0,1]}
@@ -1362,22 +1362,22 @@ A_{\text{stage}}
 +\min(0.20,0.12\max(0,d_{\max}-0.80))
 +0.15I_{\text{ignoreInterest}}
 \right).
-$$
+```
 
 ## 22. Shop And Pack Scoring
 
 Strategy-model item synergy:
 
-$$
+```math
 E_{\text{syn}}(i)
 =
 \sum_a
 \Pr(a\mid s)\,v_i(a).
-$$
+```
 
 Strategy-model item score:
 
-$$
+```math
 V_{\text{model}}(i)
 =
 B_i
@@ -1387,22 +1387,22 @@ B_i
 +P_i
 -S_i
 -C_i.
-$$
+```
 
-where $B_i$ is base item value, $E_i$ edition bonus, $G_i$ stage bonus, $P_i$ run-plan adjustment, $S_i$ sticker penalty, and $C_i$ cost penalty.
+where `B_i` is base item value, `E_i` edition bonus, `G_i` stage bonus, `P_i` run-plan adjustment, `S_i` sticker penalty, and `C_i` cost penalty.
 
 The shop blends legacy and strategy scores:
 
-$$
+```math
 V_{\text{shop}}(i)
 =
 0.45V_{\text{legacy}}(i)
 +0.55V_{\text{model}}(i).
-$$
+```
 
 Build pressure:
 
-$$
+```math
 B_{\text{pressure}}
 =
 B_{\text{jokers}}
@@ -1414,11 +1414,11 @@ B_{\text{jokers}}
 +\chi_{\text{xmult}}d_{\text{xmult}}
 +0.6d_{\text{economy}}
 +B_{\text{flags}}.
-$$
+```
 
 Booster shop score:
 
-$$
+```math
 V_{\text{booster}}
 =
 B_{\text{kind}}
@@ -1428,11 +1428,11 @@ B_{\text{kind}}
 +G_{\text{target}}
 +G_{\text{economy}}
 -P_{\text{slot}}.
-$$
+```
 
 Pack choice score is a family-specific value:
 
-$$
+```math
 V_{\text{pack}}(i)
 =
 \begin{cases}
@@ -1443,7 +1443,7 @@ V_{\text{spectral}}(i), & i\text{ is spectral},\\
 V_{\text{model}}(i)+1.4+\Delta_{\text{slot}}, & i\text{ is a Buffoon joker},\\
 V_{\text{model}}(i), & \text{otherwise}.
 \end{cases}
-$$
+```
 
 ```mermaid
 flowchart TD
@@ -1461,7 +1461,7 @@ flowchart TD
 
 The optional JavaScript solver evaluates a sampled beam search through `scripts/balatro_round_solver.js`. The Python planner accepts the JS result only if it matches a Python-ranked candidate and one of the acceptance conditions holds:
 
-$$
+```math
 \operatorname{acceptJS}
 =
 I_{\text{lethalReason}}
@@ -1474,7 +1474,7 @@ p_{\text{JS}}
 \ge
 p_{\text{leader,lcb}}-0.03
 \right].
-$$
+```
 
 This keeps JS useful as a parallel search advisor without letting it bypass the Python scorer and robust ranking.
 
@@ -1487,7 +1487,7 @@ This keeps JS useful as a parallel search advisor without letting it bypass the 
 | `The Flint` and boss name path in JS solver | `tests/test_js_solver.py` |
 | Weighted stats, ESS, CVaR, Wilson LCB | `tests/test_risk_metrics.py` if present, plus runtime MC diagnostics |
 | Exact category aggregation | `tests/test_exact_clear.py` if present, plus exact solver smoke through planner |
-| GitHub math rendering | Markdown scan for legacy parenthesis/bracket math delimiters, balanced display-math delimiters, and no equation-only `text` fences |
+| GitHub math rendering | Markdown scan for legacy parenthesis/bracket math delimiters, balanced fenced math blocks, and no equation-only `text` fences |
 
 ```mermaid
 flowchart TD
